@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 voiceToText.startListening(); // 녹음 시작
             }
-        });
+        }); // 녹음 중지 함수도 있음 VoiceToText 클래스 참고
 
         stopListeningButton.setOnClickListener(v -> { //주변이 조용해지면 자동으로 인식을 종료 하는데 굳이 필요한가?.. 음성인식 종료되고 한번 더 누르면 오류 뜸
             voiceToText.stopListening(); // 녹음 중지
