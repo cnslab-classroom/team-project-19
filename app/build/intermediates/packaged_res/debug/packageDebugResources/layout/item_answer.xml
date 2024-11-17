@@ -1,0 +1,36 @@
+<!-- 예시임 !-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/answerItemView"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- 답변 텍스트 -->
+    <EditText
+        android:id="@+id/answerEditText"
+        android:hint="답변"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="100dp"
+        android:gravity="top"
+        android:inputType="textMultiLine"
+        android:scrollbars="vertical" />
+
+    <!-- 코드 블록 컨테이너 -->
+    <LinearLayout
+        android:id="@+id/codeContainer"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- 삭제 버튼 -->
+    <Button
+        android:id="@+id/deleteButton"
+        android:text="삭제"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginTop="8dp" />
+
+</LinearLayout>
