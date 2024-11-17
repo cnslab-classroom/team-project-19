@@ -11,7 +11,6 @@ import com.example.oeg.model.GptRequest;
 import com.example.oeg.network.ChatGPTClient;
 
 import java.util.Arrays;
-import java.util.List;
 
 
 public class Mode extends ViewModel { //model set 해야함 밖에서
