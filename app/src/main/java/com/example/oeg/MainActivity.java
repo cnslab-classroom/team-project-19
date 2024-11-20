@@ -1,46 +1,98 @@
 package com.example.oeg;
 // 예시~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.graphics.Typeface;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.example.oeg.Etc.VoiceToText;
-import com.example.oeg.Etc.MessageParser;
 import com.example.oeg.mode.Mode;
+import com.example.oeg.overlay.Overlay;
 
 
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.EditText;
 import android.widget.LinearLayout;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.Settings;
+import android.os.Handler;
+//import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.Settings;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.oeg.overlay.OverlayService;
+
 
 public class MainActivity extends AppCompatActivity {
     // onCreate 밖
+    private static final int OVERLAY_PERMISSION_REQUEST_CODE = 1234;
+
+    private Overlay overlay;
+
+
     private Mode study_model;
     private VoiceToText voiceToText;
 
-    private Button startListeningButton;
-    private Button stopListeningButton;
+    //private Button startListeningButton;
+    //private Button stopListeningButton;
 
     private LinearLayout answerListContainer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main); // 레이아웃 파일 설정
+        //setContentView(R.layout.overlay_layout);
 
+        //overlay = new Overlay(this);
+
+        //Button startButton = findViewById(R.id.start_button);
+        //startButton.setOnClickListener(new View.OnClickListener() {
+           /* @Override
+            public void onClick(View v) {
+                if (Settings.canDrawOverlays(MainActivity.this)) {
+                    // 시작하기 버튼을 숨기고 start.xml을 종료
+                    //findViewById(R.id.start_button).setVisibility(View.GONE); // 버튼 숨기기
+                    findViewById(R.id.start).setVisibility(View.GONE); // 레이아웃 숨기기
+
+                    overlay.showOverlay(); // 오버레이 표시
+                    // 현재 액티비티 종료
+                    //finish()
+
+                } else {
+                    // 권한 요청
+                    requestOverlayPermission();
+                }
+            }
+        });   */
+        if (Settings.canDrawOverlays(MainActivity.this)) {
+            //overlay.showOverlay(); // 오버레이 표시
+            Intent serviceIntent = new Intent(MainActivity.this, OverlayService.class);
+            startService(serviceIntent);
+
+
+        } else {
+            // 권한 요청
+            requestOverlayPermission();
+        }
+
+
+
+
+    }
+
+
+
+/*
         // ViewModel 초기화
         study_model = new ViewModelProvider(this).get(Mode.class);
 
@@ -59,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // 버튼 초기화
-        startListeningButton = findViewById(R.id.startListeningButton);
-        stopListeningButton = findViewById(R.id.stopListeningButton);
+        //startListeningButton = findViewById(R.id.startListeningButton);
+        //stopListeningButton = findViewById(R.id.stopListeningButton);
 
         // 클릭 이벤트 설정
         startListeningButton.setOnClickListener(v -> {
@@ -71,14 +123,14 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 voiceToText.startListening(); // 녹음 시작
             }
-        }); // 녹음 중지 함수도 있음 VoiceToText 클래스 참고
+        });
 
         stopListeningButton.setOnClickListener(v -> { //주변이 조용해지면 자동으로 인식을 종료 하는데 굳이 필요한가?.. 음성인식 종료되고 한번 더 누르면 오류 뜸
             voiceToText.stopListening(); // 녹음 중지
         });
 
         // 답변 리스트 컨테이너 초기화
-        answerListContainer = findViewById(R.id.answerListContainer);
+        //answerListContainer = findViewById(R.id.answerListContainer);
 
         // LiveData 관찰자 설정
         study_model.getNewReplyLiveData().observe(this, new Observer<MessageParser.ParsedMessage>() {
@@ -97,6 +149,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
 
     // 권한 요청 결과 처리
     @Override
@@ -117,6 +171,8 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         // 앱 종료 시 음성 인식 객체 해제
         voiceToText.destroy();
+
+        overlay.removeOverlay();
     }
 
     private void createAnswerView(MessageParser.ParsedMessage parsedMessage) {
@@ -150,9 +206,30 @@ public class MainActivity extends AppCompatActivity {
         // 답변 뷰를 컨테이너에 추가
         answerListContainer.addView(answerItemView);
     }
+*/
+
+
+    private void requestOverlayPermission() {
+        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:" + getPackageName()));
+        startActivityForResult(intent, OVERLAY_PERMISSION_REQUEST_CODE);
+        //MainActivity.this.startActivity(intent);
+    }
+
+    // 권한 요청 결과 처리
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1234) {
+            if (Settings.canDrawOverlays(this)) {
+                overlay.showOverlay(); // 권한이 승인되면 오버레이 표시
+            } else {
+                Toast.makeText(this, "오버레이 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 }
-
-
 
 
 /*
