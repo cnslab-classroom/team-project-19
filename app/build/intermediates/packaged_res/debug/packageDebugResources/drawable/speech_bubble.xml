@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <bitmap
-            android:src="@drawable/cloud"
+            android:src="@drawable/cloud1"
             android:gravity="center"
             android:width="10dp"
             android:height="10dp" /> <!-- 크기 조정 -->

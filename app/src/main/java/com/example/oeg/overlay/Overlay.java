@@ -2,7 +2,6 @@ package com.example.oeg.overlay;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,44 +9,18 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import com.example.oeg.R;
 import com.bumptech.glide.Glide;
-import android.widget.FrameLayout;  // FrameLayout 임포트
-import android.view.Gravity;        // Gravity 임포트
-import android.view.MotionEvent;    // MotionEvent 임포트
-import android.view.View;           // View 임포트
-import com.bumptech.glide.Glide;    // Glide 임포트
-import android.content.res.Resources;
-import android.content.Context;
+
 import android.content.res.Configuration;
-import android.view.Gravity;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.graphics.Color;
 import android.widget.Button;
-import android.view.Gravity;
-import android.view.WindowManager;
 import android.view.GestureDetector;
-import android.view.MotionEvent;
 import android.widget.Toast;
-import android.content.Intent;
 import android.os.Handler;
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import androidx.core.content.res.ResourcesCompat;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.app.Application;
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Build;
-
-
 
 
 public class Overlay {
@@ -55,7 +28,8 @@ public class Overlay {
     private final WindowManager windowManager;
     private View overlayView;
     private Button studyButton;
-
+    private Button endButton;
+    //private final ServiceStopCallback stopServiceCallback; // 서비스 종료 콜백
 
     public Overlay(Context context) {
         this.context = context;
@@ -126,6 +100,7 @@ public class Overlay {
             @Override
             public void onLongPress(MotionEvent e) {
                 showStudyButton(params.x, params.y);
+                //showEndButton(params.x, params.y);
             }
         });
 
@@ -220,10 +195,9 @@ public class Overlay {
             // 배경을 말풍선 모양으로 설정
             studyButton.setBackgroundDrawable(
                     new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(
-                            BitmapFactory.decodeResource(context.getResources(), R.drawable.cloud), 200, 150, false
+                            BitmapFactory.decodeResource(context.getResources(), R.drawable.cloud1), 200, 150, false
                     ))
             );
-
 
 
             WindowManager.LayoutParams buttonLayoutParams = new WindowManager.LayoutParams(
@@ -238,8 +212,8 @@ public class Overlay {
             //buttonLayoutParams.y = 200;
 
             // 버튼 위치를 캐릭터 바로 위로 설정
-            buttonLayoutParams.x = characterX-100;  // 캐릭터의 x 좌표
-            buttonLayoutParams.y = characterY-200 ; // 캐릭터의 y 좌표에서 약간 위로 이동
+            buttonLayoutParams.x = characterX - 200;  // 캐릭터의 x 좌표
+            buttonLayoutParams.y = characterY - 200; // 캐릭터의 y 좌표에서 약간 위로 이동
             //buttonLayoutParams.gravity = Gravity.TOP | Gravity.START; // 절대 좌표를 기준으로 설정
 
             // 버튼을 오버레이로 띄우기
@@ -279,17 +253,59 @@ public class Overlay {
                 }
             });
         }
+
+        //종료
+        if (endButton == null) {
+            endButton = new Button(context);
+            endButton.setText("종료");
+
+            // 배경을 말풍선 모양으로 설정
+            endButton.setBackgroundDrawable(
+                    new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(
+                            BitmapFactory.decodeResource(context.getResources(), R.drawable.cloud1), 200, 150, false
+                    ))
+            );
+
+            WindowManager.LayoutParams endButtonParams = new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                    PixelFormat.TRANSLUCENT
+            );
+
+            endButtonParams.x = characterX + 200;  // 캐릭터의 x 좌표
+            endButtonParams.y = characterY - 200; // 캐릭터의 y 좌표에서 약간 위로 이동
+
+            windowManager.addView(endButton, endButtonParams);
+
+
+            endButton.setOnClickListener(v -> {
+                //stopServiceCallback.stopService();
+                removeOverlay();
+            });
+
+
+        }
     }
+
 
     private void updateButtonPosition(int characterX, int characterY) {
         if (studyButton != null) {
             WindowManager.LayoutParams buttonLayoutParams = (WindowManager.LayoutParams) studyButton.getLayoutParams();
 
             // 버튼 위치 업데이트
-            buttonLayoutParams.x = characterX-100;
+            buttonLayoutParams.x = characterX-200;
             buttonLayoutParams.y = characterY - 200;
 
             windowManager.updateViewLayout(studyButton, buttonLayoutParams);
+        }
+
+        if (endButton != null) {
+            WindowManager.LayoutParams endButtonParams = (WindowManager.LayoutParams) endButton.getLayoutParams();
+            endButtonParams.x = characterX + 200; // 캐릭터 오른쪽에 위치
+            endButtonParams.y = characterY - 200;
+            windowManager.updateViewLayout(endButton, endButtonParams);
         }
     }
 

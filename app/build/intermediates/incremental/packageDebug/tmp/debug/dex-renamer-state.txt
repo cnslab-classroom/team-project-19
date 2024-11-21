@@ -1,4 +1,4 @@
-#Thu Nov 21 07:12:22 KST 2024
+#Thu Nov 21 08:30:41 KST 2024
 base.0=C\:\\Users\\cheae\\AndroidStudioProjects\\project19\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\classes.dex
 base.1=C\:\\Users\\cheae\\AndroidStudioProjects\\project19\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
 base.2=C\:\\Users\\cheae\\AndroidStudioProjects\\project19\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\12\\classes.dex
