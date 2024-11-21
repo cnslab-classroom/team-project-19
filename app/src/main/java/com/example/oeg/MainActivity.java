@@ -1,5 +1,5 @@
 package com.example.oeg;
-// 예시~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.os.Bundle;
 import com.example.oeg.Etc.VoiceToText;
 import com.example.oeg.mode.Mode;
 import com.example.oeg.overlay.Overlay;
-
 
 import android.view.View;
 import android.widget.Button;
@@ -89,6 +88,21 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    /*
+채은이 OverlayService 클래스에 공부 모드에서 드래그 버튼 클릭하면 실행되게
+ 버튼 이름.setOnClickListener(v -> {
+            Intent intent = new Intent(OverlayService.this, MainActivity.class);
+            intent.putExtra("selectedText", MyAccessibilityService.selectedText);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        });
+
+메인 액티비티에
+  Intent intent = getIntent();
+  String dragMessage = intent.getStringExtra("selectedText");
+
+*/
 
 
 
