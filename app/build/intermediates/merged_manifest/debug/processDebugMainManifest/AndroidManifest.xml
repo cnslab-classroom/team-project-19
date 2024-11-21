@@ -31,8 +31,21 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/Theme.Oeg" >
+
+        <!--
+    <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+        -->
         <activity
-            android:name="com.example.oeg.MainActivity"
+            android:name="com.example.oeg.StartActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,6 +53,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.oeg.MainActivity" />
+        <activity android:name="com.example.oeg.StudyMode" />
+
+        <service
+            android:name="com.example.oeg.overlay.OverlayService"
+            android:permission="android.permission.SYSTEM_ALERT_WINDOW" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

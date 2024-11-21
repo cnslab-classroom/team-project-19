@@ -1,5 +1,5 @@
-com.example.oeg.test.app-core-1.6.1-0 C:\Users\milk0\.gradle\caches\8.9\transforms\600be5725e0c62254e0811888c52a5ea\transformed\core-1.6.1\res
-com.example.oeg.test.app-androidTest-1 C:\Users\milk0\AndroidStudioProjects\team-project-19\app\build\generated\res\resValues\androidTest\debug
-com.example.oeg.test.app-mergeDebugAndroidTestResources-2 C:\Users\milk0\AndroidStudioProjects\team-project-19\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
-com.example.oeg.test.app-mergeDebugAndroidTestResources-3 C:\Users\milk0\AndroidStudioProjects\team-project-19\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
-com.example.oeg.test.app-debugAndroidTest-4 C:\Users\milk0\AndroidStudioProjects\team-project-19\app\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources
+com.example.oeg.test.app-core-1.6.1-0 C:\Users\cheae\.gradle\caches\8.9\transforms\600be5725e0c62254e0811888c52a5ea\transformed\core-1.6.1\res
+com.example.oeg.test.app-androidTest-1 C:\Users\cheae\AndroidStudioProjects\project19\app\build\generated\res\resValues\androidTest\debug
+com.example.oeg.test.app-mergeDebugAndroidTestResources-2 C:\Users\cheae\AndroidStudioProjects\project19\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.example.oeg.test.app-mergeDebugAndroidTestResources-3 C:\Users\cheae\AndroidStudioProjects\project19\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.example.oeg.test.app-debugAndroidTest-4 C:\Users\cheae\AndroidStudioProjects\project19\app\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources
