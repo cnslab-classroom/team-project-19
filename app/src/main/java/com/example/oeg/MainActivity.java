@@ -73,10 +73,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }); // 녹음 중지 함수도 있음 VoiceToText 클래스 참고
 
-        stopListeningButton.setOnClickListener(v -> { //주변이 조용해지면 자동으로 인식을 종료 하는데 굳이 필요한가?.. 음성인식 종료되고 한번 더 누르면 오류 뜸
-            voiceToText.stopListening(); // 녹음 중지
-        });
-
         // 답변 리스트 컨테이너 초기화
         answerListContainer = findViewById(R.id.answerListContainer);
 
@@ -153,7 +149,20 @@ public class MainActivity extends AppCompatActivity {
 }
 
 
+/*
+채은이 OverlayService 클래스에
+ 버튼 이름.setOnClickListener(v -> {
+            Intent intent = new Intent(OverlayService.this, MainActivity.class);
+            intent.putExtra("selectedText", MyAccessibilityService.selectedText);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        });
 
+메인 액티비티에
+  Intent intent = getIntent();
+  String dragMessage = intent.getStringExtra("selectedText");
+
+*/
 
 /*
 package com.example.oeg;
