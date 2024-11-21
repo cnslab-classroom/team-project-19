@@ -1,114 +1,122 @@
 [
     {
-        "merged": "com.example.oeg.app-debug-36:/layout_activity_main.xml.flat",
-        "source": "com.example.oeg.app-main-38:/layout/activity_main.xml"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-hdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/mipmap-mdpi_ic_launcher.webp.flat",
-        "source": "com.example.oeg.app-main-38:/mipmap-mdpi/ic_launcher.webp"
+        "merged": "com.example.oeg.app-debug-36:/drawable_cloud1.png.flat",
+        "source": "com.example.oeg.app-main-38:/drawable/cloud1.png"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/mipmap-xhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.oeg.app-main-38:/mipmap-xhdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\layout_activity_main.xml.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\layout\\activity_main.xml"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/xml_data_extraction_rules.xml.flat",
-        "source": "com.example.oeg.app-main-38:/xml/data_extraction_rules.xml"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_speech_bubble.xml.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\drawable\\speech_bubble.xml"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/layout_overlay_layout.xml.flat",
-        "source": "com.example.oeg.app-main-38:/layout/overlay_layout.xml"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_memo_kkamppag.gif.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\drawable\\memo_kkamppag.gif"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/mipmap-anydpi_ic_launcher.xml.flat",
-        "source": "com.example.oeg.app-main-38:/mipmap-anydpi/ic_launcher.xml"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/drawable_basic_kkamppag.gif.flat",
-        "source": "com.example.oeg.app-main-38:/drawable/basic_kkamppag.gif"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_cloud.png.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\drawable\\cloud.png"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/mipmap-xxxhdpi_ic_launcher.webp.flat",
-        "source": "com.example.oeg.app-main-38:/mipmap-xxxhdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\mipmap-anydpi_ic_launcher_round.xml.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-anydpi\\ic_launcher_round.xml"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/mipmap-hdpi_ic_launcher.webp.flat",
-        "source": "com.example.oeg.app-main-38:/mipmap-hdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\mipmap-anydpi_ic_launcher.xml.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-anydpi\\ic_launcher.xml"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/drawable_memo.gif.flat",
-        "source": "com.example.oeg.app-main-38:/drawable/memo.gif"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_memo.gif.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\drawable\\memo.gif"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.oeg.app-main-38:/mipmap-xxhdpi/ic_launcher_round.webp"
-    },
-    {
-        "merged": "com.example.oeg.app-debug-36:/mipmap-xxhdpi_ic_launcher.webp.flat",
-        "source": "com.example.oeg.app-main-38:/mipmap-xxhdpi/ic_launcher.webp"
-    },
-    {
-        "merged": "com.example.oeg.app-debug-36:/mipmap-anydpi_ic_launcher_round.xml.flat",
-        "source": "com.example.oeg.app-main-38:/mipmap-anydpi/ic_launcher_round.xml"
-    },
-    {
-        "merged": "com.example.oeg.app-debug-36:/mipmap-mdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.oeg.app-main-38:/mipmap-mdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-mdpi\\ic_launcher.webp"
     },
     {
         "merged": "com.example.oeg.app-debug-36:/drawable_speech_bubble.xml.flat",
         "source": "com.example.oeg.app-main-38:/drawable/speech_bubble.xml"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/mipmap-hdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.oeg.app-main-38:/mipmap-hdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_ic_launcher_foreground.xml.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\drawable\\ic_launcher_foreground.xml"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/xml_backup_rules.xml.flat",
-        "source": "com.example.oeg.app-main-38:/xml/backup_rules.xml"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_strange_kkamppag.gif.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\drawable\\strange_kkamppag.gif"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/mipmap-xhdpi_ic_launcher.webp.flat",
-        "source": "com.example.oeg.app-main-38:/mipmap-xhdpi/ic_launcher.webp"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\xml_backup_rules.xml.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\xml\\backup_rules.xml"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/drawable_memo_kkamppag.gif.flat",
-        "source": "com.example.oeg.app-main-38:/drawable/memo_kkamppag.gif"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_basic_kkamppag.gif.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\drawable\\basic_kkamppag.gif"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/drawable_cloud.png.flat",
-        "source": "com.example.oeg.app-main-38:/drawable/cloud.png"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\xml_data_extraction_rules.xml.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\xml\\data_extraction_rules.xml"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/drawable_ramen.gif.flat",
-        "source": "com.example.oeg.app-main-38:/drawable/ramen.gif"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\layout_overlay_layout.xml.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\layout\\overlay_layout.xml"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/drawable_memo_start.gif.flat",
-        "source": "com.example.oeg.app-main-38:/drawable/memo_start.gif"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_memo_start.gif.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\drawable\\memo_start.gif"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/layout_item_answer.xml.flat",
-        "source": "com.example.oeg.app-main-38:/layout/item_answer.xml"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-xxhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/drawable_sleepy_kkamppag.gif.flat",
-        "source": "com.example.oeg.app-main-38:/drawable/sleepy_kkamppag.gif"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-xxhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/drawable_ic_launcher_foreground.xml.flat",
-        "source": "com.example.oeg.app-main-38:/drawable/ic_launcher_foreground.xml"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-hdpi\\ic_launcher.webp"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
-        "source": "com.example.oeg.app-main-38:/mipmap-xxxhdpi/ic_launcher_round.webp"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-xhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/drawable_strange_kkamppag.gif.flat",
-        "source": "com.example.oeg.app-main-38:/drawable/strange_kkamppag.gif"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-xxxhdpi\\ic_launcher.webp"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/drawable_ic_launcher_background.xml.flat",
-        "source": "com.example.oeg.app-main-38:/drawable/ic_launcher_background.xml"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_ramen.gif.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\drawable\\ramen.gif"
+    },
+    {
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\layout_item_answer.xml.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\layout\\item_answer.xml"
+    },
+    {
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_sleepy_kkamppag.gif.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\drawable\\sleepy_kkamppag.gif"
+    },
+    {
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-mdpi\\ic_launcher_round.webp"
+    },
+    {
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-xhdpi\\ic_launcher.webp"
+    },
+    {
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_ic_launcher_background.xml.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\drawable\\ic_launcher_background.xml"
     }
 ]

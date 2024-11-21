@@ -31,6 +31,10 @@ public class OverlayService extends Service{
         return START_STICKY; // 화면이 꺼져도 서비스가 유지되도록
     }
 
+    public void stopService() {
+        stopSelf(); // 명확히 종료
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
