@@ -4,10 +4,6 @@
         "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-hdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "com.example.oeg.app-debug-36:/drawable_cloud1.png.flat",
-        "source": "com.example.oeg.app-main-38:/drawable/cloud1.png"
-    },
-    {
         "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\layout_activity_main.xml.flat",
         "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\layout\\activity_main.xml"
     },
@@ -24,16 +20,8 @@
         "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-xxxhdpi\\ic_launcher_round.webp"
     },
     {
-        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_cloud.png.flat",
-        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\drawable\\cloud.png"
-    },
-    {
-        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\mipmap-anydpi_ic_launcher_round.xml.flat",
-        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-anydpi\\ic_launcher_round.xml"
-    },
-    {
-        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\mipmap-anydpi_ic_launcher.xml.flat",
-        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-anydpi\\ic_launcher.xml"
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_cloud1.png.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\drawable\\cloud1.png"
     },
     {
         "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_memo.gif.flat",
@@ -42,10 +30,6 @@
     {
         "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\mipmap-mdpi_ic_launcher.webp.flat",
         "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-mdpi\\ic_launcher.webp"
-    },
-    {
-        "merged": "com.example.oeg.app-debug-36:/drawable_speech_bubble.xml.flat",
-        "source": "com.example.oeg.app-main-38:/drawable/speech_bubble.xml"
     },
     {
         "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_ic_launcher_foreground.xml.flat",
@@ -84,6 +68,10 @@
         "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-xxhdpi\\ic_launcher_round.webp"
     },
     {
+        "merged": "com.example.oeg.app-debug-36:/drawable_cloud2.png.flat",
+        "source": "com.example.oeg.app-main-38:/drawable/cloud2.png"
+    },
+    {
         "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\mipmap-hdpi_ic_launcher.webp.flat",
         "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\mipmap-hdpi\\ic_launcher.webp"
     },
@@ -118,5 +106,9 @@
     {
         "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_ic_launcher_background.xml.flat",
         "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\drawable\\ic_launcher_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-debug-36:\\drawable_cloud2.png.flat",
+        "source": "C:\\Users\\cheae\\.gradle\\daemon\\8.9\\com.example.oeg.app-main-38:\\drawable\\cloud2.png"
     }
 ]

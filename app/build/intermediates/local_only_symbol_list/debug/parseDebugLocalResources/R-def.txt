@@ -4,6 +4,7 @@ color black
 color white
 drawable basic_kkamppag
 drawable cloud1
+drawable cloud2
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable memo

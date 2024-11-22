@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/character_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/basic_kkamppag"
+        android:layout_gravity="center" />
+
+    <!-- 공부하기 버튼 (처음에 숨김)
+    <Button
+        android:id="@+id/studyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="공부하기"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/character_image"
+        android:layout_marginTop="20dp" />
+-->
+</FrameLayout>
