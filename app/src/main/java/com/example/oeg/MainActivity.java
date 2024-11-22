@@ -1,5 +1,5 @@
 package com.example.oeg;
-// 예시~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~`
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.example.oeg.Etc.VoiceToText;
 import com.example.oeg.Etc.MessageParser;
 import com.example.oeg.mode.Mode;
-
+import com.example.oeg.popup.PopupManager;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -25,16 +25,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
     // onCreate 밖
     private Mode study_model;
     private VoiceToText voiceToText;
-
     private Button startListeningButton;
     private Button stopListeningButton;
 
     private LinearLayout answerListContainer;
+
+    private PopupManager popupManager; // PopupManager 추가
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
         // ViewModel 초기화
         study_model = new ViewModelProvider(this).get(Mode.class);
+        study_model.setModel("gpt-4");
+
+        // PopupManager 초기화
+        popupManager = new PopupManager();
 
         // 음성 인식 객체 생성
         voiceToText = new VoiceToText(this, new VoiceToText.SpeechToTextListener() {
@@ -71,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 voiceToText.startListening(); // 녹음 시작
             }
-        }); // 녹음 중지 함수도 있음 VoiceToText 클래스 참고
+        });
 
-        stopListeningButton.setOnClickListener(v -> { //주변이 조용해지면 자동으로 인식을 종료 하는데 굳이 필요한가?.. 음성인식 종료되고 한번 더 누르면 오류 뜸
+        stopListeningButton.setOnClickListener(v -> {
             voiceToText.stopListening(); // 녹음 중지
         });
 
@@ -81,18 +87,20 @@ public class MainActivity extends AppCompatActivity {
         answerListContainer = findViewById(R.id.answerListContainer);
 
         // LiveData 관찰자 설정
-        study_model.getNewReplyLiveData().observe(this, new Observer<MessageParser.ParsedMessage>() {
-            @Override
-            public void onChanged(MessageParser.ParsedMessage parsedMessage) {
-                // 새로운 답변 뷰 생성
-                createAnswerView(parsedMessage);
-            }
-        });
+        study_model.getNewReplyLiveData().observe(this, parsedMessage -> {
+            if (parsedMessage != null) {
+                popupManager.showResponsePopup(this, parsedMessage.textContent, updatedResponse -> {
+                    // 사용자가 수정한 응답 처리
+                    Log.d("Popup", "수정된 응답: " + updatedResponse);
 
-        study_model.getErrorLiveData().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String error) {
-                Toast.makeText(MainActivity.this, "오류 발생: " + error, Toast.LENGTH_LONG).show();
+                    // 수정된 내용을 다시 ViewModel에 반영하거나 다른 로직 처리 가능
+                    // 예: 수정된 응답을 리스트에 추가
+                    MessageParser.ParsedMessage updatedParsedMessage = new MessageParser.ParsedMessage(
+                            updatedResponse,
+                            parsedMessage.codeBlocks
+                    );
+                    createAnswerView(updatedParsedMessage);
+                });
             }
         });
 
@@ -111,13 +119,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         // 앱 종료 시 음성 인식 객체 해제
         voiceToText.destroy();
     }
+
+    // 팝업창으로 GPT 답변 표시
+    private void showPopupForResponse(MessageParser.ParsedMessage parsedMessage) {
+        // 팝업창을 띄우고 수정된 응답을 받는 코드
+        popupManager.showResponsePopup(this, parsedMessage.textContent, updatedResponse -> {
+            // 팝업에서 수정된 내용을 반영하여 새로운 ParsedMessage 생성
+            MessageParser.ParsedMessage updatedParsedMessage = new MessageParser.ParsedMessage(
+                    updatedResponse,  // 수정된 텍스트
+                    parsedMessage.codeBlocks // 기존 코드 블록 리스트
+            );
+
+            // 수정된 내용을 뷰에 반영
+            createAnswerView(updatedParsedMessage);
+        });
+    }
+
 
     private void createAnswerView(MessageParser.ParsedMessage parsedMessage) {
         // 뷰 생성 및 설정
@@ -151,32 +174,3 @@ public class MainActivity extends AppCompatActivity {
         answerListContainer.addView(answerItemView);
     }
 }
-
-
-
-
-/*
-package com.example.oeg;
-
-import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
-public class MainActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-    }
-}*/
