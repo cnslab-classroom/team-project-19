@@ -47,7 +47,7 @@ public class OverlayService extends Service{
         super.onDestroy();
         // 서비스가 종료될 때 오버레이를 제거
         overlay.removeOverlay();
-        //overlay.destroy();
+        overlay.destroy();
     }
 
 

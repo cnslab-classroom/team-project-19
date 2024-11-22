@@ -28,6 +28,7 @@ import android.util.Log;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.Random;
+import android.os.Process;
 
 public class Overlay {
     private final Context context;
@@ -43,9 +44,7 @@ public class Overlay {
     private Runnable idleRunnable;
     //private static final int IDLE_TIME = 10 * 60 * 1000; // 10분 (밀리초)
     private static final int IDLE_TIME = 10000; // 30초
-    private boolean isTouching = false;
 
-    //private final ServiceStopCallback stopServiceCallback; // 서비스 종료 콜백
 
     public Overlay(Context context) {
         this.context = context;
@@ -97,55 +96,51 @@ public class Overlay {
                 .into(character);  // ImageView에 표시
 
         //idleRunnable = () -> {
-/*
+
         idleRunnable = new Runnable() {
             @Override
             public void run() {
-                //resetIdleTimer();
                 // 캐릭터 그림 변경
-                if (!isTouching) {
-                    int[] characterImages = {
-                            R.drawable.ramen,         // 첫 번째 이미지
-                            //R.drawable.sleepy_kkamppag,       // 두 번째 이미지
-                            //R.drawable.strange_kkamppag      // 세 번째 이미지
-                    };
+                int[] characterImages = {
+                        R.drawable.ramen,         // 첫 번째 이미지
+                        R.drawable.sleepy_kkamppag,       // 두 번째 이미지
+                        R.drawable.strange_kkamppag      // 세 번째 이미지
+                };
 
-                    // 랜덤으로 캐릭터 선택
-                    int randomIndex = new Random().nextInt(characterImages.length); // 0부터 배열 길이-1 사이의 값
-                    int selectedCharacter = characterImages[randomIndex];
+                // 랜덤으로 캐릭터 선택
+                int randomIndex = new Random().nextInt(characterImages.length); // 0부터 배열 길이-1 사이의 값
+                int selectedCharacter = characterImages[randomIndex];
+
+                Glide.with(context)
+                        .asGif()
+                        .load(selectedCharacter)  // 새로운 gif 파일 (memo.gif)
+                        .into(character);  // ImageView에 설정
+
+                // 원래 이미지로 돌아가는 시간 설정
+                int resetTime = 23000; // 기본적으로 23초
+
+                // 선택된 캐릭터에 따라 다르게 설정
+                if (selectedCharacter == R.drawable.sleepy_kkamppag) {
+                    resetTime = 10000; // sleepy_kkamppag는 30초 후 원래 이미지로 돌아감
+                } else if (selectedCharacter == R.drawable.strange_kkamppag) {
+                    resetTime = 10000; // strange_kkamppag는 25초 후 원래 이미지로 돌아감
+                }
+
+
+
+                idleHandler.postDelayed(() -> {
 
                     Glide.with(context)
                             .asGif()
-                            .load(selectedCharacter)  // 새로운 gif 파일 (memo.gif)
+                            .load(R.drawable.basic_kkamppag)  // 새로운 gif 파일 (memo.gif)
                             .into(character);  // ImageView에 설정
 
-                    //character.setImageResource(selectedCharacter);
 
-                    idleHandler.postDelayed(() -> {
-
-                        Glide.with(context)
-                                .asGif()
-                                .load(R.drawable.basic_kkamppag)  // 새로운 gif 파일 (memo.gif)
-                                .into(character);  // ImageView에 설정
-
-                        //character.setImageResource(R.drawable.basic_kkamppag);
-                        resetIdleTimer();
-                    }, 20000); // 5초 후 원래 이미지로 복구
-                }
-
-                // 추가 동작 구현 가능
-
+                    resetIdleTimer();
+                }, resetTime); // 초 후 원래 이미지로 복구
             }
-            // 초기 타이머 설정
-            //resetIdleTimer();
         };
-
-        // 타이머 동작 정의
-        //setIdleRunnable();  // idleRunnable 설정
         resetIdleTimer();
-
-*/
-
 
         //드래그+꾹누르기
         GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
@@ -153,16 +148,17 @@ public class Overlay {
 
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
-                if(isNormalMode){
-                    // 짧게 누르면 버튼들 보이게 하기
-                    //Log.d("GestureDetector", "isNormalMode before: " + isNormalMode);
-                    startRecording();
+                resetIdleTimer();   // 터치 시 타이머 초기화
+                if(isNormalMode){  //녹음
+                    /*
+                    Intent intent = new Intent(context, MainActivity.class);
+                    intent.putExtra("action", "record");  // 동작 전달
+                    context.startActivity(intent);
+                    */
                     return true;
                 }
-                else{
-                    //Log.d("GestureDetector", "isNormalMode after: " + isNormalMode);
+                else{ //녹음,드래그 버튼
                     showStudyButton(params.x, params.y);
-                    //showStudyButton((int) e.getRawX(), (int) e.getRawY());
                     return true;
                 }
 
@@ -171,25 +167,20 @@ public class Overlay {
 
             @Override
             public void onLongPress(MotionEvent e) {
-                if(isNormalMode) {
+                resetIdleTimer();   // 터치 시 타이머 초기화
+                if(isNormalMode) {  //공부모드,종료 바튼
                     showNomalButton(params.x, params.y);
-                }else{
+                }else{  //알반모드 버튼
                     showExitButton(params.x, params.y);
                 }
             }
+
         });
 
         character.setOnTouchListener((v, event) -> {
             gestureDetector.onTouchEvent(event); // GestureDetector에 이벤트 전달
 
-            /*if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                isTouching = true;  // 터치 시작
-                resetIdleTimer();   // 터치 시 타이머 초기화
-            } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
-                isTouching = false; // 터치 종료
-                resetIdleTimer();
-            }*/
-
+            resetIdleTimer();
             return true;
         });
 
@@ -234,8 +225,6 @@ public class Overlay {
 
         // 오버레이를 화면에 추가
         windowManager.addView(overlayView, params);
-
-        //initializeCharacter(overlayView);
 
         ((Application) context.getApplicationContext()).registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
@@ -306,47 +295,47 @@ public class Overlay {
 
             // 버튼을 오버레이로 띄우기
             windowManager.addView(studyButton, buttonLayoutParams);
-
-            // 버튼 클릭 이벤트 처리
-            studyButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // 버튼 클릭 시 원하는 동작 수행 (예: 공부 화면으로 이동)
-                    // 예: Intent로 화면 전환
-                    // 공부 모드로 전환
-                    isNormalMode = false;
-
-                    ImageView characterImage = overlayView.findViewById(R.id.character_image);
-
-                    // Glide로 새로운 GIF 로드 (memo.gif)
-                    Glide.with(context)
-                            .asGif()
-                            .load(R.drawable.memo_start)  // 새로운 gif 파일 (memo.gif)
-                            .into(characterImage);  // ImageView에 설정
-
-                    // 일정 시간 후 memo.gif로 변경 (예: 2초 후)
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Glide.with(context)
-                                    .asGif()
-                                    .load(R.drawable.memo_kkamppag)  // 2초 후 memo.gif로 변경
-                                    .into(characterImage);
-                        }
-                    }, 1500);  // 2초 (2000ms) 후에 실행
-
-
-                    studyButton.setVisibility(View.GONE);
-                    endButton.setVisibility(View.GONE);
-
-
-
-                    //Intent intent = new Intent(context, MainActivity.class);
-                    //intent.putExtra("action", "start_study_mode");  // 동작 전달
-                    //context.startActivity(intent);
-                }
-            });
         }
+        // 버튼 클릭 이벤트 처리
+        studyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 버튼 클릭 시 원하는 동작 수행
+                // 공부 모드로 전환
+                isNormalMode = false;
+
+                ImageView characterImage = overlayView.findViewById(R.id.character_image);
+
+                // Glide로 새로운 GIF 로드 (memo.gif)
+                Glide.with(context)
+                        .asGif()
+                        .load(R.drawable.memo_start)  // 새로운 gif 파일 (memo.gif)
+                        .into(characterImage);  // ImageView에 설정
+
+                // 일정 시간 후 memo.gif로 변경 (예: 2초 후)
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Glide.with(context)
+                                .asGif()
+                                .load(R.drawable.memo_kkamppag)  // 2초 후 memo.gif로 변경
+                                .into(characterImage);
+                    }
+                }, 1500);  // 2초 (2000ms) 후에 실행
+
+
+                studyButton.setVisibility(View.GONE);
+                endButton.setVisibility(View.GONE);
+
+
+                    /*
+                    Intent intent = new Intent(context, MainActivity.class);
+                    intent.putExtra("action", "start_study_mode");  // 동작 전달
+                    context.startActivity(intent);
+                     */
+            }
+        });
+
 
         //종료
         if (endButton == null) {
@@ -372,27 +361,33 @@ public class Overlay {
             endButtonParams.y = characterY - 150; // 캐릭터의 y 좌표에서 약간 위로 이동
 
             windowManager.addView(endButton, endButtonParams);
-
-
-            endButton.setOnClickListener(v -> {
-                //종료
-                System.exit(0);
-            });
-
-
         }
-        else {
-            // 버튼이 이미 생성된 경우 가시성 토글
-            if (studyButton.getVisibility() == View.VISIBLE) {
-                // 버튼을 숨김
-                studyButton.setVisibility(View.GONE);
-                endButton.setVisibility(View.GONE);
-            } else {
-                // 버튼을 보이게 함
-                studyButton.setVisibility(View.VISIBLE);
-                endButton.setVisibility(View.VISIBLE);
-            }
+
+        endButton.setOnClickListener(v -> {
+            /*
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.putExtra("action", "end");  // 동작 전달
+            context.startActivity(intent);
+            */
+
+        });
+
+
+
+
+
+        // 버튼이 이미 생성된 경우 가시성 토글
+        if (studyButton.getVisibility() == View.VISIBLE) {
+            // 버튼을 숨김
+            studyButton.setVisibility(View.GONE);
+            endButton.setVisibility(View.GONE);
+        } else {
+            // 버튼을 보이게 함
+            studyButton.setVisibility(View.VISIBLE);
+            endButton.setVisibility(View.VISIBLE);
         }
+
+
     }
 
     // "공부하기" 버튼 제거
@@ -440,34 +435,26 @@ public class Overlay {
 
             // 버튼을 오버레이로 띄우기
             windowManager.addView(recordButton, recordButtonParams);
-
-
-            // 버튼 클릭 이벤트 처리
-            recordButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    recordButton.setVisibility(View.GONE);
-                    dragButton.setVisibility(View.GONE);
-
-                    //Intent intent = new Intent(context, MainActivity.class);
-                    //intent.putExtra("action", "start_study_mode");  // 동작 전달
-                    //context.startActivity(intent);
-                    // 녹음 버튼 클릭 시
-                    /*
-                    if (recordButton.getVisibility() == View.VISIBLE) {
-                        // 버튼을 숨김
-                        recordButton.setVisibility(View.GONE);
-                        dragButton.setVisibility(View.GONE);
-                    } else {
-                        // 버튼을 다시 보이게 함
-                        recordButton.setVisibility(View.VISIBLE);
-                        dragButton.setVisibility(View.VISIBLE);
-                    }*/
-
-                }
-            });
         }
+
+        // 버튼 클릭 이벤트 처리
+        recordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                recordButton.setVisibility(View.GONE);
+                dragButton.setVisibility(View.GONE);
+
+                    /*
+                    Intent intent = new Intent(context, MainActivity.class);
+                    intent.putExtra("action", "record");  // 동작 전달
+                    context.startActivity(intent);
+
+                     */
+            }
+        });
+
+
 
         //드래그
         if (dragButton == null) {
@@ -493,29 +480,27 @@ public class Overlay {
             dragButtonParams.y = characterY - 150; // 캐릭터의 y 좌표에서 약간 위로 이동
 
             windowManager.addView(dragButton, dragButtonParams);
-
-
-            dragButton.setOnClickListener(v -> {
-                recordButton.setVisibility(View.GONE);
-                dragButton.setVisibility(View.GONE);
-                // 녹음 버튼 클릭 시
-
-            });
-
-
         }
 
-        else {
-            // 버튼이 이미 생성된 경우 가시성 토글
-            if (recordButton.getVisibility() == View.VISIBLE) {
-                // 버튼을 숨김
-                recordButton.setVisibility(View.GONE);
-                dragButton.setVisibility(View.GONE);
-            } else {
-                // 버튼을 보이게 함
-                recordButton.setVisibility(View.VISIBLE);
-                dragButton.setVisibility(View.VISIBLE);
-            }
+        dragButton.setOnClickListener(v -> {
+            recordButton.setVisibility(View.GONE);
+            dragButton.setVisibility(View.GONE);
+                /*
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.putExtra("action", "drag");  // 동작 전달
+                context.startActivity(intent);
+                */
+        });
+
+        // 버튼이 이미 생성된 경우 가시성 토글
+        if (recordButton.getVisibility() == View.VISIBLE) {
+            // 버튼을 숨김
+            recordButton.setVisibility(View.GONE);
+            dragButton.setVisibility(View.GONE);
+        } else {
+            // 버튼을 보이게 함
+            recordButton.setVisibility(View.VISIBLE);
+            dragButton.setVisibility(View.VISIBLE);
         }
     }
 
@@ -544,7 +529,7 @@ public class Overlay {
             nomalButtonParams.y = characterY - 150; // 캐릭터의 y 좌표에서 약간 위로 이동
 
             windowManager.addView(nomalButton, nomalButtonParams);
-
+        }
 
             nomalButton.setOnClickListener(v -> {
                 isNormalMode = true;
@@ -560,14 +545,14 @@ public class Overlay {
                 nomalButton.setVisibility(View.GONE);
             });
 
-        }else {
-            // 드래그 버튼이 이미 있을 경우 가시성 토글
-            if (nomalButton.getVisibility() == View.VISIBLE) {
-                nomalButton.setVisibility(View.GONE);
-            } else {
-                nomalButton.setVisibility(View.VISIBLE);
-            }
+        // 드래그 버튼이 이미 있을 경우 가시성 토글
+        if (nomalButton.getVisibility() == View.VISIBLE) {
+            nomalButton.setVisibility(View.GONE);
+        } else {
+            nomalButton.setVisibility(View.VISIBLE);
         }
+
+
     }
 
 
@@ -615,51 +600,12 @@ public class Overlay {
         }
     }
 
-/*
-    // 캐릭터 초기화
-    public void initializeCharacter(View overlayView)  {
-        ImageView character = overlayView.findViewById(R.id.character_image);
 
-        // 캐릭터 클릭 리스너
-        character.setOnTouchListener((v, event) -> {
-            resetIdleTimer(); // 터치 시 타이머 초기화
-            return false; // 다른 터치 이벤트도 처리되도록 반환
-        });
-
-        // 타이머 동작 정의
-        idleRunnable = () -> {
-            // 캐릭터 그림 변경
-            Glide.with(context)
-                    .asGif()
-                    .load(R.drawable.ramen)  // 새로운 gif 파일 (memo.gif)
-                    .into(character);  // ImageView에 설정
-
-            character.setImageResource(R.drawable.ramen);
-
-            idleHandler.postDelayed(() -> {
-                character.setImageResource(R.drawable.basic_kkamppag);
-            }, 20000); // 5초 후 원래 이미지로 복구
-            // 추가 동작 구현 가능
-        };
-
-        // 초기 타이머 설정
-        resetIdleTimer();
-    }
-
- */
-/*
     // 타이머 초기화
     private void resetIdleTimer() {
-
-        if (!isTouching) {
-            // 기존 핸들러 작업 제거
-            idleHandler.removeCallbacks(idleRunnable);
-            // IDLE_TIME 후에 동작 실행
-            idleHandler.postDelayed(idleRunnable, IDLE_TIME);
-        }else {
-            // 터치 중이라면 타이머를 리셋
-            idleHandler.removeCallbacks(idleRunnable);
-        }
+        idleHandler.removeCallbacks(idleRunnable);
+        // IDLE_TIME 후에 동작 실행
+        idleHandler.postDelayed(idleRunnable, IDLE_TIME);
 
     }
 
@@ -669,46 +615,4 @@ public class Overlay {
         //super.onDestroy();
         idleHandler.removeCallbacks(idleRunnable);
     }
-*/
-/*
-    private void setIdleRunnable(){
-        idleRunnable = new Runnable() {
-            @Override
-            public void run() {
-                //resetIdleTimer();
-                // 캐릭터 그림 변경
-                if(!isTouching){
-                    int[] characterImages = {
-                            R.drawable.ramen,         // 첫 번째 이미지
-                            //R.drawable.sleepy_kkamppag,       // 두 번째 이미지
-                            //R.drawable.strange_kkamppag      // 세 번째 이미지
-                    };
-
-                    // 랜덤으로 캐릭터 선택
-                    int randomIndex = new Random().nextInt(characterImages.length); // 0부터 배열 길이-1 사이의 값
-                    int selectedCharacter = characterImages[randomIndex];
-
-                    Glide.with(context)
-                            .asGif()
-                            .load(selectedCharacter)  // 새로운 gif 파일 (memo.gif)
-                            .into(character);  // ImageView에 설정
-
-                    //character.setImageResource(selectedCharacter);
-
-                    idleHandler.postDelayed(() -> {
-
-                        Glide.with(context)
-                                .asGif()
-                                .load(R.drawable.basic_kkamppag)  // 새로운 gif 파일 (memo.gif)
-                                .into(character);  // ImageView에 설정
-
-                        //character.setImageResource(R.drawable.basic_kkamppag);
-                        resetIdleTimer();
-                    }, 20000); // 5초 후 원래 이미지로 복구
-                    // 추가 동작 구현 가능
-                }
-                //resetIdleTimer();
-            }
-        };
-    }*/
 }
