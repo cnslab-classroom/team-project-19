@@ -61,5 +61,5 @@ dependencies {
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.runtime.ktx)
 
-    implementation ("com.github.bumptech.glide:glide:4.14.2")
+    implementation (libs.glide)
 }
