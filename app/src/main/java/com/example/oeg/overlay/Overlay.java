@@ -610,7 +610,7 @@ public class Overlay {
 
     // onDestroy()에서 핸들러 제거 (메모리 누수 방지)
     //@Override
-    protected void destroy() {
+    public void destroy() {
         //super.onDestroy();
         idleHandler.removeCallbacks(idleRunnable);
     }

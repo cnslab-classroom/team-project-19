@@ -1,6 +1,5 @@
 package com.example.oeg.mode;
 
-import android.content.Intent;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -14,23 +13,22 @@ import com.example.oeg.network.ChatGPTClient;
 import java.util.Arrays;
 
 public class Mode extends ViewModel {
-    private static Mode instance;
     private String model = "gpt-3.5-turbo"; // 기본 모델
     private String message;
     private ChatGPTClient chatGPTClient = new ChatGPTClient();
+    private MutableLiveData<MessageParser.ParsedMessage> ReplyLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> errorLiveData = new MutableLiveData<>();
+
     private GptRequest request;
     private GptRequest.Message assistantMessage;
-    // private 생성자 - 외부에서 인스턴스를 만들 수 없도록 막음
-    private Mode() {}
 
-    // getInstance 메서드를 통해 단 하나의 인스턴스만 생성
-    public static Mode getInstance() {
-        if (instance == null) {
-            instance = new Mode();
-        }
-        return instance;
+    public LiveData<MessageParser.ParsedMessage> getNewReplyLiveData() {
+        return ReplyLiveData;
     }
 
+    public LiveData<String> getErrorLiveData() {
+        return errorLiveData;
+    }
 
     public void setModel(String model) {
         this.model = model;
@@ -62,6 +60,7 @@ public class Mode extends ViewModel {
                     "당신은 모든 질문에 대해 명확하게 명사형 종결어미(~함., ~임.등)를 사용하여 대답하는 인공지능임. 질문이 어려울 시 길게 설명해도 좋음."
             );
         } else {
+            errorLiveData.postValue("유효하지 않은 모델");
             return;
         }
 
@@ -77,17 +76,13 @@ public class Mode extends ViewModel {
             @Override
             public void onResponse(MessageParser.ParsedMessage parsedMessage) {
                 assistantMessage = new GptRequest.Message("assistant", parsedMessage.textContent);
+                ReplyLiveData.postValue(parsedMessage);
                 Log.d("Mode", "parsedMessage 받음: " + parsedMessage.textContent);
-                Intent broadcastIntent1 = new Intent("com.example.oeg.CHAT_RESPONSE");
-                broadcastIntent1.putExtra("response_message", parsedMessage.textContent);
-                Intent broadcastIntent2 = new Intent("com.example.oeg.CHAT_RESPONSE");
-                broadcastIntent1.putExtra("response_message", parsedMessage.codeBlocks);
-
             }
 
             @Override
             public void onFailure(String error) {
-                Log.e("Mode", "오류: " + error);
+                errorLiveData.postValue(error);
             }
         });
     }
