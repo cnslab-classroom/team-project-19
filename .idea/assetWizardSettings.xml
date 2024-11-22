@@ -110,11 +110,6 @@
                                       </entry>
                                     </map>
                                   </option>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="outputName" value="ic_notification" />
-                                    </map>
-                                  </option>
                                 </PersistentState>
                               </value>
                             </entry>

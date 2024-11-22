@@ -11,9 +11,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <permission
         android:name="com.example.oeg.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
@@ -46,17 +43,8 @@
         <activity android:name="com.example.oeg.MainActivity" />
 
         <service
-            android:name="com.example.oeg.Etc.MYAccessibilityService"
-            android:exported="true"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
-            <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.accessibilityservice"
-                android:resource="@xml/accessibility_service_config" />
-        </service>
+            android:name="com.example.oeg.overlay.OverlayService"
+            android:permission="android.permission.SYSTEM_ALERT_WINDOW" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

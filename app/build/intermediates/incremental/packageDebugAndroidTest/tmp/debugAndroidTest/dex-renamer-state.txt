@@ -1,4 +1,4 @@
-#Fri Nov 22 21:05:38 KST 2024
+#Fri Nov 22 16:31:32 KST 2024
 base.0=C\:\\Users\\milk0\\AndroidStudioProjects\\team-project-19\\app\\build\\intermediates\\dex\\debugAndroidTest\\mergeExtDexDebugAndroidTest\\classes.dex
 base.1=C\:\\Users\\milk0\\AndroidStudioProjects\\team-project-19\\app\\build\\intermediates\\dex\\debugAndroidTest\\mergeProjectDexDebugAndroidTest\\0\\classes.dex
 base.2=C\:\\Users\\milk0\\AndroidStudioProjects\\team-project-19\\app\\build\\intermediates\\dex\\debugAndroidTest\\mergeProjectDexDebugAndroidTest\\15\\classes.dex

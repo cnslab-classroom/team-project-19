@@ -33,6 +33,13 @@
 
         <activity android:name=".MainActivity" />
 
+
+        <service
+            android:name=".overlay.OverlayService"
+            android:permission="android.permission.SYSTEM_ALERT_WINDOW"
+            android:exported="false"
+            android:foregroundServiceType="microphone"/>
+
         <service
             android:name=".Etc.MYAccessibilityService"
             android:exported="true"
