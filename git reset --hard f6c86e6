@@ -1,0 +1,13 @@
+[33mf0d55f6[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: commit: aa
+[33mf6c86e6[m HEAD@{1}: commit: aa
+[33m3fd2910[m HEAD@{2}: commit: aa
+[33md9b804e[m HEAD@{3}: checkout: moving from d9b804e7ad76a55f54de79a595f94a02a882377a to main
+[33md9b804e[m HEAD@{4}: reset: moving to d9b804e7ad76a55f54de79a595f94a02a882377a
+[33m289a2cf[m HEAD@{5}: reset: moving to 289a2cf355b91c1dd28c165cf41d08b26c8c5ae0
+[33md9b804e[m HEAD@{6}: checkout: moving from main to d9b804e7ad76a55f54de79a595f94a02a882377a
+[33md9b804e[m HEAD@{7}: reset: moving to d9b804e7ad76a55f54de79a595f94a02a882377a
+[33m289a2cf[m HEAD@{8}: reset: moving to 289a2cf355b91c1dd28c165cf41d08b26c8c5ae0
+[33m289a2cf[m HEAD@{9}: reset: moving to 289a2cf355b91c1dd28c165cf41d08b26c8c5ae0
+[33m289a2cf[m HEAD@{10}: reset: moving to 289a2cf355b91c1dd28c165cf41d08b26c8c5ae0
+[33m289a2cf[m HEAD@{11}: pull --no-stat -v --progress origin main: Fast-forward
+[33m55f880b[m HEAD@{12}: clone: from https://github.com/cnslab-classroom/team-project-19.git

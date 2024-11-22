@@ -4,7 +4,11 @@
             "outputFile": "com.example.oeg.app-mergeDebugResources-34:/values-v22/values-v22.xml",
             "map": [
                 {
+<<<<<<< HEAD
+                    "source": "C:\\Users\\seokj\\.gradle\\caches\\8.9\\transforms\\7798f1a77a019e06dd6bc753a89d1d3f\\transformed\\appcompat-1.7.0\\res\\values-v22\\values-v22.xml",
+=======
                     "source": "C:\\Users\\milk0\\.gradle\\caches\\8.9\\transforms\\0a74945f2e7e1af9d9f2d58f8ec52d56\\transformed\\appcompat-1.7.0\\res\\values-v22\\values-v22.xml",
+>>>>>>> 346e5c5d2f8472e22e6b73cab0a32f79f6d280b7
                     "from": {
                         "startLines": "2,3,4,9",
                         "startColumns": "4,4,4,4",

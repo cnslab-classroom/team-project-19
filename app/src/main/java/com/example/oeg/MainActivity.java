@@ -2,7 +2,6 @@ package com.example.oeg;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import com.example.oeg.Etc.VoiceToText;
@@ -29,97 +28,51 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.Manifest;
-
-
 import com.example.oeg.overlay.OverlayService;
 
 
 public class MainActivity extends AppCompatActivity {
+    // onCreate 밖
     private static final int OVERLAY_PERMISSION_REQUEST_CODE = 1234;
 
     private Overlay overlay;
 
 
-    private Mode mode;
+    private Mode study_model;
     private VoiceToText voiceToText;
+
+    //private Button startListeningButton;
+    //private Button stopListeningButton;
 
     private LinearLayout answerListContainer;
 
 
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        // 모드 변경 하는거
-        if (intent != null && "start_study_mode".equals(intent.getStringExtra("action"))) {
-            mode.setModel("gpt-4");
-        }
-        else if (intent != null && "exit_study_mode".equals(intent.getStringExtra("action"))){
-            mode.setModel("gpt-3.5-turbo");
-        }
-        // 드래그 처리
-        else if (intent != null && intent.hasExtra("드래그함")) {
-            String selectedText = intent.getStringExtra("드래그함");
-            mode.setMessage(selectedText); // GPT에게 보낼 메시지 설정
-            mode.sendMessage(); // 메시지 전송
-
-        }
-        // 녹음 처리
-        else if(intent != null && intent.hasExtra("대충 녹음 버튼 눌렀다는 intent 받으면")){
-            // 권한 체크 및 요청
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
-            } else {
-                voiceToText.startListening(); // 녹음 시작
-            }
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.overlay_layout);
 
-        mode = new ViewModelProvider(this).get(Mode.class);
+        //overlay = new Overlay(this);
 
+        //Button startButton = findViewById(R.id.start_button);
+        //startButton.setOnClickListener(new View.OnClickListener() {
+           /* @Override
+            public void onClick(View v) {
+                if (Settings.canDrawOverlays(MainActivity.this)) {
+                    // 시작하기 버튼을 숨기고 start.xml을 종료
+                    //findViewById(R.id.start_button).setVisibility(View.GONE); // 버튼 숨기기
+                    findViewById(R.id.start).setVisibility(View.GONE); // 레이아웃 숨기기
 
-        voiceToText = new VoiceToText(this, new VoiceToText.SpeechToTextListener() {
-            @Override
-            public void onSpeechResult(String result) {
-                mode.setMessage(result); // GPT에게 보낼 메시지 설정
-                mode.sendMessage(); // 메시지 전송
+                    overlay.showOverlay(); // 오버레이 표시
+                    // 현재 액티비티 종료
+                    //finish()
+
+                } else {
+                    // 권한 요청
+                    requestOverlayPermission();
+                }
             }
-
-            @Override
-            public void onSpeechError(String errorMessage) {
-                Toast.makeText(MainActivity.this, "오류: " + errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        //지은이 메모장 설정
-        /* 대충 이거 비슷한거 있으면 됨
-        answerListContainer = findViewById(R.id.answerListContainer);
-        // LiveData 관찰자 설정
-        study_model.getNewReplyLiveData().observe(this, new Observer<MessageParser.ParsedMessage>() {
-            @Override
-            public void onChanged(MessageParser.ParsedMessage parsedMessage) {
-                // 새로운 답변 뷰 생성
-                createAnswerView(parsedMessage);
-            }
-        });
-        study_model.getErrorLiveData().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String error) {
-                Toast.makeText(MainActivity.this, "오류 발생: " + error, Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-        */
-        ///////////////////////////////////////////////////////////
+        });   */
         if (Settings.canDrawOverlays(MainActivity.this)) {
             //overlay.showOverlay(); // 오버레이 표시
             Intent serviceIntent = new Intent(MainActivity.this, OverlayService.class);
@@ -135,45 +88,20 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-    // 권한 요청 결과 처리
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                voiceToText.startListening();
-            } else {
-                Toast.makeText(this, "오디오 녹음 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        // 앱 종료 시 음성 인식 객체 해제
-        voiceToText.destroy();
-    }
-
-
-
 
     /*
-그 공부모드 버튼있는 클래스에 공부 모드에서 드래그 버튼 클릭하면 실행되게
- 버튼 이름.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-        // 접근성 서비스의 정적 메서드를 통해 텍스트 가져오기
-        String draggedText = MyAccessibilityService.getCurrentSelectedText();
+채은이 OverlayService 클래스에 공부 모드에서 드래그 버튼 클릭하면 실행되게
+ 버튼 이름.setOnClickListener(v -> {
+            Intent intent = new Intent(OverlayService.this, MainActivity.class);
+            intent.putExtra("selectedText", MyAccessibilityService.selectedText);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        });
 
-        Intent intent = new Intent(OverlayActivity.this, MainActivity.class);
-        intent.putExtra("드래그함", draggedText);
-        startActivity(intent);
-    }
+메인 액티비티에
+  Intent intent = getIntent();
+  String dragMessage = intent.getStringExtra("selectedText");
 
-    if (intent != null && intent.hasExtra("드래그함")) {
-            String selectedText = intent.getStringExtra("드래그함");
-
-    }
 */
 
 

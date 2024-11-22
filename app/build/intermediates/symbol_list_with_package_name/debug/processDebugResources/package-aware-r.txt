@@ -2997,11 +2997,13 @@ drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
 drawable cloud1
+drawable cloud2
 drawable design_fab_background
 drawable design_ic_visibility
 drawable design_ic_visibility_off
 drawable design_password_eye
 drawable design_snackbar_background
+drawable dialog_background
 drawable ic_arrow_back_black_24
 drawable ic_call_answer
 drawable ic_call_answer_low
@@ -3011,6 +3013,7 @@ drawable ic_call_decline
 drawable ic_call_decline_low
 drawable ic_clear_black_24
 drawable ic_clock_black_24dp
+drawable ic_close
 drawable ic_keyboard_black_24dp
 drawable ic_launcher_background
 drawable ic_launcher_foreground
@@ -3099,6 +3102,7 @@ drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
 drawable ramen
+drawable resize_handle_icon
 drawable sleepy_kkamppag
 drawable speech_bubble
 drawable strange_kkamppag
@@ -3205,6 +3209,7 @@ id bounce
 id bounceBoth
 id bounceEnd
 id bounceStart
+id btn_close
 id buttonPanel
 id cache_measures
 id callMeasure
@@ -3275,6 +3280,7 @@ id dragLeft
 id dragRight
 id dragStart
 id dragUp
+id drag_area
 id dropdown_menu
 id easeIn
 id easeInOut
@@ -3462,6 +3468,7 @@ id pathRelative
 id peekHeight
 id percent
 id pin
+id popup_layout
 id position
 id postLayout
 id pressed
@@ -3471,6 +3478,8 @@ id radio
 id ratio
 id rectangles
 id report_drawn
+id resize_handle
+id response_edit_text
 id reverseSawtooth
 id right
 id rightToLeft
@@ -3743,6 +3752,7 @@ layout design_navigation_menu
 layout design_navigation_menu_item
 layout design_text_input_end_icon
 layout design_text_input_start_icon
+layout dialog_response_popup
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
 layout item_answer
@@ -5262,3 +5272,4 @@ styleable include constraintSet
 xml accessibility_service_config
 xml backup_rules
 xml data_extraction_rules
+xml file_paths

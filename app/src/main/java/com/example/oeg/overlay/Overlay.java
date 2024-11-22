@@ -2,6 +2,7 @@ package com.example.oeg.overlay;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.os.OutcomeReceiver;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,15 +22,29 @@ import android.graphics.drawable.BitmapDrawable;
 import android.app.Application;
 import android.app.Activity;
 import android.os.Bundle;
-
+import android.content.Intent;
+import com.example.oeg.MainActivity;
+import android.util.Log;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.Random;
+import android.os.Process;
 
 public class Overlay {
     private final Context context;
     private final WindowManager windowManager;
     private View overlayView;
+    private boolean isNormalMode = true;
     private Button studyButton;
     private Button endButton;
-    //private final ServiceStopCallback stopServiceCallback; // 서비스 종료 콜백
+    private Button recordButton;
+    private Button dragButton;
+    private Button nomalButton;
+    private Handler idleHandler = new Handler();
+    private Runnable idleRunnable;
+    //private static final int IDLE_TIME = 10 * 60 * 1000; // 10분 (밀리초)
+    private static final int IDLE_TIME = 10000; // 30초
+
 
     public Overlay(Context context) {
         this.context = context;
@@ -48,8 +63,8 @@ public class Overlay {
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE| WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                 PixelFormat.TRANSLUCENT
         );
 
@@ -74,34 +89,99 @@ public class Overlay {
         ImageView character = overlayView.findViewById(R.id.character_image);
 
 
-
         // Glide로 GIF 이미지 로드
         Glide.with(context)
                 .asGif()  // GIF 형식으로 로드
                 .load(R.drawable.strange_kkamppag)  // GIF 파일을 로드
                 .into(character);  // ImageView에 표시
 
+        //idleRunnable = () -> {
+
+        idleRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // 캐릭터 그림 변경
+                int[] characterImages = {
+                        R.drawable.ramen,         // 첫 번째 이미지
+                        R.drawable.sleepy_kkamppag,       // 두 번째 이미지
+                        R.drawable.strange_kkamppag      // 세 번째 이미지
+                };
+
+                // 랜덤으로 캐릭터 선택
+                int randomIndex = new Random().nextInt(characterImages.length); // 0부터 배열 길이-1 사이의 값
+                int selectedCharacter = characterImages[randomIndex];
+
+                Glide.with(context)
+                        .asGif()
+                        .load(selectedCharacter)  // 새로운 gif 파일 (memo.gif)
+                        .into(character);  // ImageView에 설정
+
+                // 원래 이미지로 돌아가는 시간 설정
+                int resetTime = 23000; // 기본적으로 23초
+
+                // 선택된 캐릭터에 따라 다르게 설정
+                if (selectedCharacter == R.drawable.sleepy_kkamppag) {
+                    resetTime = 10000; // sleepy_kkamppag는 30초 후 원래 이미지로 돌아감
+                } else if (selectedCharacter == R.drawable.strange_kkamppag) {
+                    resetTime = 10000; // strange_kkamppag는 25초 후 원래 이미지로 돌아감
+                }
 
 
 
+                idleHandler.postDelayed(() -> {
+
+                    Glide.with(context)
+                            .asGif()
+                            .load(R.drawable.basic_kkamppag)  // 새로운 gif 파일 (memo.gif)
+                            .into(character);  // ImageView에 설정
+
+
+                    resetIdleTimer();
+                }, resetTime); // 초 후 원래 이미지로 복구
+            }
+        };
+        resetIdleTimer();
 
         //드래그+꾹누르기
         GestureDetector gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 
+
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
+                resetIdleTimer();   // 터치 시 타이머 초기화
+                if(isNormalMode){  //녹음
+                    /*
+                    Intent intent = new Intent(context, MainActivity.class);
+                    intent.putExtra("action", "record");  // 동작 전달
+                    context.startActivity(intent);
+                    */
+                    return true;
+                }
+                else{ //녹음,드래그 버튼
+                    showStudyButton(params.x, params.y);
+                    return true;
+                }
 
-                // 짧게 누르면 버튼들 보이게 하기
-                startRecording();
-                return true;
             }
 
 
             @Override
             public void onLongPress(MotionEvent e) {
-                showStudyButton(params.x, params.y);
-                //showEndButton(params.x, params.y);
+                resetIdleTimer();   // 터치 시 타이머 초기화
+                if(isNormalMode) {  //공부모드,종료 바튼
+                    showNomalButton(params.x, params.y);
+                }else{  //알반모드 버튼
+                    showExitButton(params.x, params.y);
+                }
             }
+
+        });
+
+        character.setOnTouchListener((v, event) -> {
+            gestureDetector.onTouchEvent(event); // GestureDetector에 이벤트 전달
+
+            resetIdleTimer();
+            return true;
         });
 
         character.setOnTouchListener(new View.OnTouchListener() {
@@ -187,7 +267,7 @@ public class Overlay {
 
 
     //공부모드
-    public void showStudyButton(int characterX, int characterY) {
+    public void showNomalButton(int characterX, int characterY) {
         if (studyButton == null) {
             studyButton = new Button(context);
             studyButton.setText("공부모드");
@@ -208,51 +288,54 @@ public class Overlay {
                     PixelFormat.TRANSLUCENT
             );
 
-            //buttonLayoutParams.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
-            //buttonLayoutParams.y = 200;
-
             // 버튼 위치를 캐릭터 바로 위로 설정
-            buttonLayoutParams.x = characterX - 200;  // 캐릭터의 x 좌표
-            buttonLayoutParams.y = characterY - 200; // 캐릭터의 y 좌표에서 약간 위로 이동
+            buttonLayoutParams.x = characterX - 180;  // 캐릭터의 x 좌표
+            buttonLayoutParams.y = characterY - 150; // 캐릭터의 y 좌표에서 약간 위로 이동
             //buttonLayoutParams.gravity = Gravity.TOP | Gravity.START; // 절대 좌표를 기준으로 설정
 
             // 버튼을 오버레이로 띄우기
             windowManager.addView(studyButton, buttonLayoutParams);
-
-            // 버튼 클릭 이벤트 처리
-            studyButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // 버튼 클릭 시 원하는 동작 수행 (예: 공부 화면으로 이동)
-                    // 예: Intent로 화면 전환
-                    ImageView characterImage = overlayView.findViewById(R.id.character_image);
-
-                    // Glide로 새로운 GIF 로드 (memo.gif)
-                    Glide.with(context)
-                            .asGif()
-                            .load(R.drawable.memo_start)  // 새로운 gif 파일 (memo.gif)
-                            .into(characterImage);  // ImageView에 설정
-
-                    // 일정 시간 후 memo.gif로 변경 (예: 2초 후)
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            Glide.with(context)
-                                    .asGif()
-                                    .load(R.drawable.memo_kkamppag)  // 2초 후 memo.gif로 변경
-                                    .into(characterImage);
-                        }
-                    }, 1500);  // 2초 (2000ms) 후에 실행
-
-
-                    studyButton.setVisibility(View.GONE);
-
-                    // StudyMode 액티비티로 이동
-                    //Intent intent = new Intent(context, StudyMode.class);
-                    //context.startActivity(intent);
-                }
-            });
         }
+        // 버튼 클릭 이벤트 처리
+        studyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 버튼 클릭 시 원하는 동작 수행
+                // 공부 모드로 전환
+                isNormalMode = false;
+
+                ImageView characterImage = overlayView.findViewById(R.id.character_image);
+
+                // Glide로 새로운 GIF 로드 (memo.gif)
+                Glide.with(context)
+                        .asGif()
+                        .load(R.drawable.memo_start)  // 새로운 gif 파일 (memo.gif)
+                        .into(characterImage);  // ImageView에 설정
+
+                // 일정 시간 후 memo.gif로 변경 (예: 2초 후)
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Glide.with(context)
+                                .asGif()
+                                .load(R.drawable.memo_kkamppag)  // 2초 후 memo.gif로 변경
+                                .into(characterImage);
+                    }
+                }, 1500);  // 2초 (2000ms) 후에 실행
+
+
+                studyButton.setVisibility(View.GONE);
+                endButton.setVisibility(View.GONE);
+
+
+                    /*
+                    Intent intent = new Intent(context, MainActivity.class);
+                    intent.putExtra("action", "start_study_mode");  // 동작 전달
+                    context.startActivity(intent);
+                     */
+            }
+        });
+
 
         //종료
         if (endButton == null) {
@@ -262,7 +345,7 @@ public class Overlay {
             // 배경을 말풍선 모양으로 설정
             endButton.setBackgroundDrawable(
                     new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(
-                            BitmapFactory.decodeResource(context.getResources(), R.drawable.cloud1), 200, 150, false
+                            BitmapFactory.decodeResource(context.getResources(), R.drawable.cloud2), 200, 150, false
                     ))
             );
 
@@ -274,39 +357,37 @@ public class Overlay {
                     PixelFormat.TRANSLUCENT
             );
 
-            endButtonParams.x = characterX + 200;  // 캐릭터의 x 좌표
-            endButtonParams.y = characterY - 200; // 캐릭터의 y 좌표에서 약간 위로 이동
+            endButtonParams.x = characterX + 180;  // 캐릭터의 x 좌표
+            endButtonParams.y = characterY - 150; // 캐릭터의 y 좌표에서 약간 위로 이동
 
             windowManager.addView(endButton, endButtonParams);
-
-
-            endButton.setOnClickListener(v -> {
-                //stopServiceCallback.stopService();
-                removeOverlay();
-            });
-
-
-        }
-    }
-
-
-    private void updateButtonPosition(int characterX, int characterY) {
-        if (studyButton != null) {
-            WindowManager.LayoutParams buttonLayoutParams = (WindowManager.LayoutParams) studyButton.getLayoutParams();
-
-            // 버튼 위치 업데이트
-            buttonLayoutParams.x = characterX-200;
-            buttonLayoutParams.y = characterY - 200;
-
-            windowManager.updateViewLayout(studyButton, buttonLayoutParams);
         }
 
-        if (endButton != null) {
-            WindowManager.LayoutParams endButtonParams = (WindowManager.LayoutParams) endButton.getLayoutParams();
-            endButtonParams.x = characterX + 200; // 캐릭터 오른쪽에 위치
-            endButtonParams.y = characterY - 200;
-            windowManager.updateViewLayout(endButton, endButtonParams);
+        endButton.setOnClickListener(v -> {
+            /*
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.putExtra("action", "end");  // 동작 전달
+            context.startActivity(intent);
+            */
+
+        });
+
+
+
+
+
+        // 버튼이 이미 생성된 경우 가시성 토글
+        if (studyButton.getVisibility() == View.VISIBLE) {
+            // 버튼을 숨김
+            studyButton.setVisibility(View.GONE);
+            endButton.setVisibility(View.GONE);
+        } else {
+            // 버튼을 보이게 함
+            studyButton.setVisibility(View.VISIBLE);
+            endButton.setVisibility(View.VISIBLE);
         }
+
+
     }
 
     // "공부하기" 버튼 제거
@@ -326,4 +407,212 @@ public class Overlay {
     }
 
 
+
+    public void showStudyButton(int characterX, int characterY) {
+        if (recordButton == null) {
+            recordButton = new Button(context);
+            recordButton.setText("녹음");
+
+            // 배경을 말풍선 모양으로 설정
+            recordButton.setBackgroundDrawable(
+                    new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(
+                            BitmapFactory.decodeResource(context.getResources(), R.drawable.cloud1), 200, 150, false
+                    ))
+            );
+
+
+            WindowManager.LayoutParams recordButtonParams = new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                    PixelFormat.TRANSLUCENT
+            );
+
+            // 버튼 위치를 캐릭터 바로 위로 설정
+            recordButtonParams.x = characterX - 180;  // 캐릭터의 x 좌표
+            recordButtonParams.y = characterY - 150; // 캐릭터의 y 좌표에서 약간 위로 이동
+
+            // 버튼을 오버레이로 띄우기
+            windowManager.addView(recordButton, recordButtonParams);
+        }
+
+        // 버튼 클릭 이벤트 처리
+        recordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                recordButton.setVisibility(View.GONE);
+                dragButton.setVisibility(View.GONE);
+
+                    /*
+                    Intent intent = new Intent(context, MainActivity.class);
+                    intent.putExtra("action", "record");  // 동작 전달
+                    context.startActivity(intent);
+
+                     */
+            }
+        });
+
+
+
+        //드래그
+        if (dragButton == null) {
+            dragButton = new Button(context);
+            dragButton.setText("드래그");
+
+            // 배경을 말풍선 모양으로 설정
+            dragButton.setBackgroundDrawable(
+                    new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(
+                            BitmapFactory.decodeResource(context.getResources(), R.drawable.cloud2), 200, 150, false
+                    ))
+            );
+
+            WindowManager.LayoutParams dragButtonParams = new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                    PixelFormat.TRANSLUCENT
+            );
+
+            dragButtonParams.x = characterX + 180;  // 캐릭터의 x 좌표
+            dragButtonParams.y = characterY - 150; // 캐릭터의 y 좌표에서 약간 위로 이동
+
+            windowManager.addView(dragButton, dragButtonParams);
+        }
+
+        dragButton.setOnClickListener(v -> {
+            recordButton.setVisibility(View.GONE);
+            dragButton.setVisibility(View.GONE);
+                /*
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.putExtra("action", "drag");  // 동작 전달
+                context.startActivity(intent);
+                */
+        });
+
+        // 버튼이 이미 생성된 경우 가시성 토글
+        if (recordButton.getVisibility() == View.VISIBLE) {
+            // 버튼을 숨김
+            recordButton.setVisibility(View.GONE);
+            dragButton.setVisibility(View.GONE);
+        } else {
+            // 버튼을 보이게 함
+            recordButton.setVisibility(View.VISIBLE);
+            dragButton.setVisibility(View.VISIBLE);
+        }
+    }
+
+
+    public void showExitButton(int characterX, int characterY) {
+        if (nomalButton == null) {
+            nomalButton = new Button(context);
+            nomalButton.setText("일반모드");
+
+            // 배경을 말풍선 모양으로 설정
+            nomalButton.setBackgroundDrawable(
+                    new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(
+                            BitmapFactory.decodeResource(context.getResources(), R.drawable.cloud1), 200, 150, false
+                    ))
+            );
+
+            WindowManager.LayoutParams nomalButtonParams = new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                    WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+                    PixelFormat.TRANSLUCENT
+            );
+
+            nomalButtonParams.x = characterX - 180;  // 캐릭터의 x 좌표
+            nomalButtonParams.y = characterY - 150; // 캐릭터의 y 좌표에서 약간 위로 이동
+
+            windowManager.addView(nomalButton, nomalButtonParams);
+        }
+
+            nomalButton.setOnClickListener(v -> {
+                isNormalMode = true;
+
+                ImageView characterImage = overlayView.findViewById(R.id.character_image);
+
+                // Glide로 새로운 GIF 로드 (memo.gif)
+                Glide.with(context)
+                        .asGif()
+                        .load(R.drawable.basic_kkamppag)  // 새로운 gif 파일 (memo.gif)
+                        .into(characterImage);  // ImageView에 설정
+
+                nomalButton.setVisibility(View.GONE);
+            });
+
+        // 드래그 버튼이 이미 있을 경우 가시성 토글
+        if (nomalButton.getVisibility() == View.VISIBLE) {
+            nomalButton.setVisibility(View.GONE);
+        } else {
+            nomalButton.setVisibility(View.VISIBLE);
+        }
+
+
+    }
+
+
+
+    private void updateButtonPosition(int characterX, int characterY) {
+        if (studyButton != null) {
+            WindowManager.LayoutParams buttonLayoutParams = (WindowManager.LayoutParams) studyButton.getLayoutParams();
+
+            // 버튼 위치 업데이트
+            buttonLayoutParams.x = characterX-180;
+            buttonLayoutParams.y = characterY - 150;
+
+            windowManager.updateViewLayout(studyButton, buttonLayoutParams);
+        }
+
+        if (endButton != null) {
+            WindowManager.LayoutParams endButtonParams = (WindowManager.LayoutParams) endButton.getLayoutParams();
+            endButtonParams.x = characterX + 180; // 캐릭터 오른쪽에 위치
+            endButtonParams.y = characterY - 150;
+            windowManager.updateViewLayout(endButton, endButtonParams);
+        }
+
+        if (recordButton != null) {
+            WindowManager.LayoutParams recordButtonParams = (WindowManager.LayoutParams) recordButton.getLayoutParams();
+
+            // 버튼 위치 업데이트
+            recordButtonParams.x = characterX-180;
+            recordButtonParams.y = characterY - 150;
+
+            windowManager.updateViewLayout(recordButton, recordButtonParams);
+        }
+
+        if (dragButton != null) {
+            WindowManager.LayoutParams dragButtonParams = (WindowManager.LayoutParams) dragButton.getLayoutParams();
+            dragButtonParams.x = characterX + 180; // 캐릭터 오른쪽에 위치
+            dragButtonParams.y = characterY - 150;
+            windowManager.updateViewLayout(dragButton, dragButtonParams);
+        }
+
+        if (nomalButton != null) {
+            WindowManager.LayoutParams nomalButtonParams = (WindowManager.LayoutParams) nomalButton.getLayoutParams();
+            nomalButtonParams.x = characterX - 180; // 캐릭터 오른쪽에 위치
+            nomalButtonParams.y = characterY - 150;
+            windowManager.updateViewLayout(nomalButton, nomalButtonParams);
+        }
+    }
+
+
+    // 타이머 초기화
+    private void resetIdleTimer() {
+        idleHandler.removeCallbacks(idleRunnable);
+        // IDLE_TIME 후에 동작 실행
+        idleHandler.postDelayed(idleRunnable, IDLE_TIME);
+
+    }
+
+    // onDestroy()에서 핸들러 제거 (메모리 누수 방지)
+    //@Override
+    protected void destroy() {
+        //super.onDestroy();
+        idleHandler.removeCallbacks(idleRunnable);
+    }
 }

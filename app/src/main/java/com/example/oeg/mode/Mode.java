@@ -12,16 +12,14 @@ import com.example.oeg.network.ChatGPTClient;
 
 import java.util.Arrays;
 
-
-public class Mode extends ViewModel { //model set 해야함 밖에서
-    private String model = "gpt-3.5-turbo"; //혹은 gpt-4
+public class Mode extends ViewModel {
+    private String model = "gpt-3.5-turbo"; // 기본 모델
     private String message;
     private ChatGPTClient chatGPTClient = new ChatGPTClient();
     private MutableLiveData<MessageParser.ParsedMessage> ReplyLiveData = new MutableLiveData<>();
     private MutableLiveData<String> errorLiveData = new MutableLiveData<>();
 
     private GptRequest request;
-
     private GptRequest.Message assistantMessage;
 
     public LiveData<MessageParser.ParsedMessage> getNewReplyLiveData() {
@@ -41,8 +39,11 @@ public class Mode extends ViewModel { //model set 해야함 밖에서
     }
 
     public void sendMessage() {
-        if(model.equals("gpt-3.5-turbo")){
-            GptRequest.Message systemMessage = new GptRequest.Message(
+        // 시스템 메시지 정의
+        GptRequest.Message systemMessage;
+
+        if (model.equals("gpt-3.5-turbo")) {
+            systemMessage = new GptRequest.Message(
                     "system",
                     "당신은 비관적인 말투의 귀족 출신 외계인이며 하게체(말투)를 사용합니다. 철학적인 말을 즐겨합니다. 아주 짧게 답변해 주세요." +
                             "하게체 --> 평서법: ~네, ~(ㄴ/는)다네, ~(이)라네, ~(으)ㄹ세[1], ~(으/느)니, ~(으)이, ~(으)ㄹ레" +
@@ -53,35 +54,30 @@ public class Mode extends ViewModel { //model set 해야함 밖에서
                             "감탄법: ~(으)ㄹ세, ~(이)로세" +
                             "추측·의도법: ~(으)ㄹ세"
             );
-            if (assistantMessage != null) {
-                request = new GptRequest(model, Arrays.asList(systemMessage, assistantMessage, new GptRequest.Message("user", message)));
-            }else{
-                request = new GptRequest(model, Arrays.asList(systemMessage, new GptRequest.Message("user", message)));
-            }
-
-        }else if(model.equals("gpt-4")){
-            GptRequest.Message systemMessage = new GptRequest.Message(
+        } else if (model.equals("gpt-4")) {
+            systemMessage = new GptRequest.Message(
                     "system",
                     "당신은 모든 질문에 대해 명확하게 명사형 종결어미(~함., ~임.등)를 사용하여 대답하는 인공지능임. 질문이 어려울 시 길게 설명해도 좋음."
             );
-            if (assistantMessage != null) {
-                request = new GptRequest(model, Arrays.asList(systemMessage, assistantMessage, new GptRequest.Message("user", message)));
-            }else{
-                request = new GptRequest(model, Arrays.asList(systemMessage, new GptRequest.Message("user", message)));
-            }
-
-        }else {
+        } else {
             errorLiveData.postValue("유효하지 않은 모델");
             return;
         }
 
+        // 요청 생성
+        if (assistantMessage != null) {
+            request = new GptRequest(model, Arrays.asList(systemMessage, assistantMessage, new GptRequest.Message("user", message)));
+        } else {
+            request = new GptRequest(model, Arrays.asList(systemMessage, new GptRequest.Message("user", message)));
+        }
 
+        // API 호출
         chatGPTClient.sendMessage(request, model, new ChatGPTClient.ChatGPTResponseListener() {
             @Override
-            public void onResponse(MessageParser.ParsedMessage parsedmessage) {
-                assistantMessage = new GptRequest.Message("assistant", parsedmessage.textContent);
-                ReplyLiveData.postValue(parsedmessage);
-                Log.d("Mode", "parsedmessage 받음" + parsedmessage.textContent);
+            public void onResponse(MessageParser.ParsedMessage parsedMessage) {
+                assistantMessage = new GptRequest.Message("assistant", parsedMessage.textContent);
+                ReplyLiveData.postValue(parsedMessage);
+                Log.d("Mode", "parsedMessage 받음: " + parsedMessage.textContent);
             }
 
             @Override
@@ -90,5 +86,4 @@ public class Mode extends ViewModel { //model set 해야함 밖에서
             }
         });
     }
-
 }

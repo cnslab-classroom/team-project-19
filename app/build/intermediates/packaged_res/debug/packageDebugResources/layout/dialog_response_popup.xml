@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/popup_layout"
+    android:layout_width="300dp"
+    android:layout_height="400dp"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+    <!-- 드래그 영역 -->
+    <View
+        android:id="@+id/drag_area"
+        android:layout_width="223dp"
+        android:layout_height="13dp"
+        android:background="@android:color/white" />
+
+    <!-- 응답 입력 필드 -->
+    <EditText
+        android:id="@+id/response_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/drag_area"
+        android:hint="GPT의 답변"
+        android:padding="8dp"
+        android:textSize="16sp" />
+
+    <!-- 닫기 버튼 (X 모양) -->
+    <ImageButton
+        android:id="@+id/btn_close"
+        android:layout_width="20dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_close" />  <!-- 벡터 아이콘 사용 -->
+
+    <!-- 크기 조정 핸들 (기울어진 화살표 모양) -->
+    <ImageView
+        android:id="@+id/resize_handle"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/resize_handle_icon" />  <!-- 벡터 아이콘 사용 -->
+
+</RelativeLayout>
