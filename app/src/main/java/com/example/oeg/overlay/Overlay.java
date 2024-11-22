@@ -29,6 +29,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.Random;
 import android.os.Process;
+import com.example.oeg.Etc.MYAccessibilityService;
 
 public class Overlay {
     private final Context context;
@@ -150,11 +151,9 @@ public class Overlay {
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 resetIdleTimer();   // 터치 시 타이머 초기화
                 if(isNormalMode){  //녹음
-                    /*
-                    Intent intent = new Intent(context, MainActivity.class);
+                    Intent intent = new Intent("com.example.oeg.OVERLAY_ACTION");
                     intent.putExtra("action", "record");  // 동작 전달
-                    context.startActivity(intent);
-                    */
+                    context.sendBroadcast(intent);
                     return true;
                 }
                 else{ //녹음,드래그 버튼
@@ -300,6 +299,7 @@ public class Overlay {
         studyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("Overlay", "공부 모드 버튼 클릭됨");
                 // 버튼 클릭 시 원하는 동작 수행
                 // 공부 모드로 전환
                 isNormalMode = false;
@@ -327,12 +327,10 @@ public class Overlay {
                 studyButton.setVisibility(View.GONE);
                 endButton.setVisibility(View.GONE);
 
+                Intent intent = new Intent("com.example.oeg.OVERLAY_ACTION");
+                intent.putExtra("action", "start_study_mode");  // 동작 전달
+                context.sendBroadcast(intent);
 
-                    /*
-                    Intent intent = new Intent(context, MainActivity.class);
-                    intent.putExtra("action", "start_study_mode");  // 동작 전달
-                    context.startActivity(intent);
-                     */
             }
         });
 
@@ -364,11 +362,12 @@ public class Overlay {
         }
 
         endButton.setOnClickListener(v -> {
-            /*
-            Intent intent = new Intent(context, MainActivity.class);
+            Log.d("Overlay", "종료버튼 클릭됨");
+
+            Intent intent = new Intent("com.example.oeg.OVERLAY_ACTION");
             intent.putExtra("action", "end");  // 동작 전달
-            context.startActivity(intent);
-            */
+            context.sendBroadcast(intent);
+
 
         });
 
@@ -441,16 +440,15 @@ public class Overlay {
         recordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.d("Overlay", "녹음 버튼 클릭됨");
                 recordButton.setVisibility(View.GONE);
                 dragButton.setVisibility(View.GONE);
 
-                    /*
-                    Intent intent = new Intent(context, MainActivity.class);
-                    intent.putExtra("action", "record");  // 동작 전달
-                    context.startActivity(intent);
 
-                     */
+                Intent intent = new Intent("com.example.oeg.OVERLAY_ACTION");
+                intent.putExtra("action", "record");  // 동작 전달
+                context.sendBroadcast(intent);
+
             }
         });
 
@@ -483,13 +481,14 @@ public class Overlay {
         }
 
         dragButton.setOnClickListener(v -> {
+            Log.d("Overlay", "드래그 버튼 클릭됨");
             recordButton.setVisibility(View.GONE);
             dragButton.setVisibility(View.GONE);
-                /*
-                Intent intent = new Intent(context, MainActivity.class);
-                intent.putExtra("action", "drag");  // 동작 전달
-                context.startActivity(intent);
-                */
+
+            Intent intent = new Intent("com.example.oeg.OVERLAY_ACTION");
+            intent.putExtra("action", "drag");  // 동작 전달
+            context.sendBroadcast(intent);
+
         });
 
         // 버튼이 이미 생성된 경우 가시성 토글

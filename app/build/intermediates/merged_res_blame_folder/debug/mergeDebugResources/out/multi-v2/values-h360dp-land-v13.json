@@ -4,11 +4,7 @@
             "outputFile": "com.example.oeg.app-mergeDebugResources-34:/values-h360dp-land-v13/values-h360dp-land-v13.xml",
             "map": [
                 {
-<<<<<<< HEAD
-                    "source": "C:\\Users\\seokj\\.gradle\\caches\\8.9\\transforms\\a28c9409b9983068e0191d76fb332ecf\\transformed\\material-1.12.0\\res\\values-h360dp-land-v13\\values-h360dp-land-v13.xml",
-=======
                     "source": "C:\\Users\\milk0\\.gradle\\caches\\8.9\\transforms\\0287b85c73ce1b62ac96cd2be7ff5410\\transformed\\material-1.12.0\\res\\values-h360dp-land-v13\\values-h360dp-land-v13.xml",
->>>>>>> 346e5c5d2f8472e22e6b73cab0a32f79f6d280b7
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
                         "startColumns": "4,4,4,4,4,4,4,4,4",

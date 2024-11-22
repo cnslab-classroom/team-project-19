@@ -7,16 +7,20 @@ import android.content.ClipboardManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.view.WindowManager;
 import android.os.Handler;
 
+import com.example.oeg.Etc.MessageParser;
 import com.example.oeg.R;
 
 import java.util.ArrayList;
@@ -34,6 +38,7 @@ public class PopupManager {
     private static final int MAX_POPUPS = 8; // 최대 팝업 개수
     private final List<Dialog> activePopups = new ArrayList<>();
 
+    private MessageParser.ParsedMessage parsedMessage;
     private static final int[] PASTEL_COLORS = {
             Color.parseColor("#FFCDD2"), // Light Red
             Color.parseColor("#F8BBD0"), // Light Pink
@@ -47,10 +52,12 @@ public class PopupManager {
             Color.parseColor("#DCEDC8"), // Light Lime
     };
 
-    public void showResponsePopup(Context context, String response, Consumer<String> onResponse) {
+    public void showResponsePopup(Context context, MessageParser.ParsedMessage response, Consumer<String> onResponse) {
         if (activePopups.size() >= MAX_POPUPS) {
             return;
         }
+
+        parsedMessage = response;
 
         Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -61,10 +68,20 @@ public class PopupManager {
 
         // EditText를 할당
         EditText responseEditText = dialog.findViewById(R.id.response_edit_text);
-
+        LinearLayout codeContainer = dialog.findViewById(R.id.codeContainer);
         // 응답을 EditText에 출력
-        responseEditText.setText(response);  // 텍스트를 EditText에 설정
+        responseEditText.setText(parsedMessage.textContent);  // 텍스트를 EditText에 설정
         responseEditText.setVisibility(View.VISIBLE);  // EditText는 보이기
+
+        for (String code : parsedMessage.codeBlocks) {
+            TextView codeTextView = new TextView(context);
+            codeTextView.setText(code);
+            codeTextView.setTypeface(Typeface.MONOSPACE);
+            codeTextView.setTextSize(14);
+            codeTextView.setPadding(8, 8, 8, 8);
+            codeTextView.setBackgroundColor(Color.parseColor("#F0F0F0"));
+            codeContainer.addView(codeTextView);
+        }
 
         ImageButton closeButton = dialog.findViewById(R.id.btn_close);
         closeButton.setOnClickListener(v -> {

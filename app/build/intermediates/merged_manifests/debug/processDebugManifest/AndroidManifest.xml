@@ -29,9 +29,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:testOnly="true"
         android:theme="@style/Theme.Oeg" >
         <activity
-            android:name="com.example.oeg.MainActivity"
+            android:name="com.example.oeg.StartActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,16 +40,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.oeg.MainActivity" />
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="com.example.oeg.provider"
-            android:exported="false"
-            android:grantUriPermissions="true" >
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
+        <service
+            android:name="com.example.oeg.overlay.OverlayService"
+            android:permission="android.permission.SYSTEM_ALERT_WINDOW" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="com.example.oeg.androidx-startup"

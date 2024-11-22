@@ -24,6 +24,13 @@
         android:padding="8dp"
         android:textSize="16sp" />
 
+    <!-- 코드 블록 컨테이너 -->
+    <LinearLayout
+        android:id="@+id/codeContainer"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <!-- 닫기 버튼 (X 모양) -->
     <ImageButton
         android:id="@+id/btn_close"

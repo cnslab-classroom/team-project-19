@@ -3187,8 +3187,6 @@ id allStates
 id always
 id animateToEnd
 id animateToStart
-id answerEditText
-id answerItemView
 id antiClockwise
 id anticipate
 id arc
@@ -3256,7 +3254,6 @@ id decelerate
 id decelerateAndComplete
 id decor_content_parent
 id default_activity_button
-id deleteButton
 id deltaRelative
 id dependency_ordering
 id design_bottom_sheet
@@ -3755,7 +3752,6 @@ layout design_text_input_start_icon
 layout dialog_response_popup
 layout ime_base_split_test_activity
 layout ime_secondary_split_test_activity
-layout item_answer
 layout m3_alert_dialog
 layout m3_alert_dialog_actions
 layout m3_alert_dialog_title
@@ -3819,6 +3815,7 @@ layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
 mipmap ic_launcher
+mipmap ic_launcher_foreground
 mipmap ic_launcher_round
 plurals mtrl_badge_content_description
 string abc_action_bar_home_description

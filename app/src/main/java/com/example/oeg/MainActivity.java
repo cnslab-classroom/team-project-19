@@ -1,78 +1,132 @@
 package com.example.oeg;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import com.example.oeg.Etc.MYAccessibilityService;
 import com.example.oeg.Etc.VoiceToText;
 import com.example.oeg.mode.Mode;
 import com.example.oeg.overlay.Overlay;
 
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
-import android.os.Handler;
-//import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.provider.Settings;
-import android.view.View;
+import android.util.Log;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
+
+import android.Manifest;
+
+
 import com.example.oeg.overlay.OverlayService;
+import com.example.oeg.popup.PopupManager;
 
 
 public class MainActivity extends AppCompatActivity {
-    // onCreate 밖
     private static final int OVERLAY_PERMISSION_REQUEST_CODE = 1234;
 
     private Overlay overlay;
 
 
-    private Mode study_model;
+    private Mode mode;
     private VoiceToText voiceToText;
 
-    //private Button startListeningButton;
-    //private Button stopListeningButton;
+    private RelativeLayout answerListContainer;
 
-    private LinearLayout answerListContainer;
+    private PopupManager popupManager;
+    private BroadcastReceiver overlayActionReceiver;
+
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.overlay_layout);
+        setContentView(R.layout.activity_main);
+        //moveTaskToBack(true);
 
-        //overlay = new Overlay(this);
-
-        //Button startButton = findViewById(R.id.start_button);
-        //startButton.setOnClickListener(new View.OnClickListener() {
-           /* @Override
-            public void onClick(View v) {
-                if (Settings.canDrawOverlays(MainActivity.this)) {
-                    // 시작하기 버튼을 숨기고 start.xml을 종료
-                    //findViewById(R.id.start_button).setVisibility(View.GONE); // 버튼 숨기기
-                    findViewById(R.id.start).setVisibility(View.GONE); // 레이아웃 숨기기
-
-                    overlay.showOverlay(); // 오버레이 표시
-                    // 현재 액티비티 종료
-                    //finish()
-
-                } else {
-                    // 권한 요청
-                    requestOverlayPermission();
+        mode = new ViewModelProvider(this).get(Mode.class);
+        overlayActionReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent != null && intent.hasExtra("action")) {
+                    String action = intent.getStringExtra("action");
+                    switch (action) {
+                        case "start_study_mode":
+                            Log.d(TAG, "Study Mode 시작 intent");
+                            mode.setModel("gpt-4");
+                            break;
+                        case "exit_study_mode":
+                            Log.d(TAG, "Study Mode 끝 intent");
+                            mode.setModel("gpt-3.5-turbo");
+                            break;
+                        case "end":
+                            Log.d(TAG, "어플 종료 intent");
+                            finish();
+                            break;
+                        case "record":
+                            Log.d(TAG, "녹음시작 intent");
+                            // 권한 체크 및 녹음 시작
+                            if (ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO)
+                                    != PackageManager.PERMISSION_GRANTED) {
+                                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
+                            } else {
+                                voiceToText.startListening();
+                            }
+                            break;
+                        case "drag":
+                            Log.d(TAG, "드래그 intent");
+                            String draggedText = MYAccessibilityService.getCurrentSelectedText();
+                            mode.setMessage(draggedText);
+                            mode.sendMessage();
+                            break;
+                    }
                 }
             }
-        });   */
+        };
+
+        IntentFilter filter = new IntentFilter("com.example.oeg.OVERLAY_ACTION");
+        registerReceiver(overlayActionReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
+
+        // PopupManager 초기화
+        popupManager = new PopupManager();
+
+        voiceToText = new VoiceToText(this, new VoiceToText.SpeechToTextListener() {
+            @Override
+            public void onSpeechResult(String result) {
+                mode.setMessage(result); // GPT에게 보낼 메시지 설정
+                mode.sendMessage(); // 메시지 전송
+            }
+
+            @Override
+            public void onSpeechError(String errorMessage) {
+                Toast.makeText(MainActivity.this, "오류: " + errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // LiveData 관찰자 설정
+        mode.getNewReplyLiveData().observe(this, parsedMessage -> {
+            if (parsedMessage != null) {
+                popupManager.showResponsePopup(this, parsedMessage, updatedResponse -> {
+
+                });
+            }
+        });
+
         if (Settings.canDrawOverlays(MainActivity.this)) {
             //overlay.showOverlay(); // 오버레이 표시
             Intent serviceIntent = new Intent(MainActivity.this, OverlayService.class);
@@ -84,87 +138,7 @@ public class MainActivity extends AppCompatActivity {
             requestOverlayPermission();
         }
 
-
-
-
     }
-
-    /*
-채은이 OverlayService 클래스에 공부 모드에서 드래그 버튼 클릭하면 실행되게
- 버튼 이름.setOnClickListener(v -> {
-            Intent intent = new Intent(OverlayService.this, MainActivity.class);
-            intent.putExtra("selectedText", MyAccessibilityService.selectedText);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        });
-
-메인 액티비티에
-  Intent intent = getIntent();
-  String dragMessage = intent.getStringExtra("selectedText");
-
-*/
-
-
-
-/*
-        // ViewModel 초기화
-        study_model = new ViewModelProvider(this).get(Mode.class);
-
-        // 음성 인식 객체 생성
-        voiceToText = new VoiceToText(this, new VoiceToText.SpeechToTextListener() {
-            @Override
-            public void onSpeechResult(String result) {
-                study_model.setMessage(result); // GPT에게 보낼 메시지 설정
-                study_model.sendMessage(); // 메시지 전송
-            }
-
-            @Override
-            public void onSpeechError(String errorMessage) {
-                Toast.makeText(MainActivity.this, "오류: " + errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // 버튼 초기화
-        //startListeningButton = findViewById(R.id.startListeningButton);
-        //stopListeningButton = findViewById(R.id.stopListeningButton);
-
-        // 클릭 이벤트 설정
-        startListeningButton.setOnClickListener(v -> {
-            // 권한 체크 및 요청
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
-            } else {
-                voiceToText.startListening(); // 녹음 시작
-            }
-        });
-
-        stopListeningButton.setOnClickListener(v -> { //주변이 조용해지면 자동으로 인식을 종료 하는데 굳이 필요한가?.. 음성인식 종료되고 한번 더 누르면 오류 뜸
-            voiceToText.stopListening(); // 녹음 중지
-        });
-
-        // 답변 리스트 컨테이너 초기화
-        //answerListContainer = findViewById(R.id.answerListContainer);
-
-        // LiveData 관찰자 설정
-        study_model.getNewReplyLiveData().observe(this, new Observer<MessageParser.ParsedMessage>() {
-            @Override
-            public void onChanged(MessageParser.ParsedMessage parsedMessage) {
-                // 새로운 답변 뷰 생성
-                createAnswerView(parsedMessage);
-            }
-        });
-
-        study_model.getErrorLiveData().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(String error) {
-                Toast.makeText(MainActivity.this, "오류 발생: " + error, Toast.LENGTH_LONG).show();
-            }
-        });
-
-    }
-
-
 
     // 권한 요청 결과 처리
     @Override
@@ -179,48 +153,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        // 브로드캐스트 리시버 해제
+        unregisterReceiver(overlayActionReceiver);
         // 앱 종료 시 음성 인식 객체 해제
         voiceToText.destroy();
-
-        overlay.removeOverlay();
     }
-
-    private void createAnswerView(MessageParser.ParsedMessage parsedMessage) {
-        // 뷰 생성 및 설정
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View answerItemView = inflater.inflate(R.layout.item_answer, null);
-
-        EditText answerEditText = answerItemView.findViewById(R.id.answerEditText);
-        LinearLayout codeContainer = answerItemView.findViewById(R.id.codeContainer);
-        Button deleteButton = answerItemView.findViewById(R.id.deleteButton);
-
-        // 일반 텍스트 설정 (수정 가능)
-        answerEditText.setText(parsedMessage.textContent);
-
-        // 코드 블록 설정
-        for (String code : parsedMessage.codeBlocks) {
-            TextView codeTextView = new TextView(this);
-            codeTextView.setText(code);
-            codeTextView.setTypeface(Typeface.MONOSPACE);
-            codeTextView.setTextSize(14);
-            codeTextView.setPadding(8, 8, 8, 8);
-            codeTextView.setBackgroundColor(Color.parseColor("#F0F0F0"));
-            codeContainer.addView(codeTextView);
-        }
-
-        // 삭제 버튼 클릭 리스너 설정
-        deleteButton.setOnClickListener(v -> {
-            answerListContainer.removeView(answerItemView);
-        });
-
-        // 답변 뷰를 컨테이너에 추가
-        answerListContainer.addView(answerItemView);
-    }
-*/
 
 
     private void requestOverlayPermission() {
@@ -243,31 +184,5 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
 }
-
-
-/*
-package com.example.oeg;
-
-import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
-public class MainActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-    }
-}*/
