@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:2:1-45:12
-INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:2:1-45:12
-INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:2:1-45:12
-INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:2:1-45:12
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:2:1-61:12
+INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:2:1-61:12
+INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:2:1-61:12
+INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:2:1-61:12
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\milk0\.gradle\caches\8.9\transforms\0287b85c73ce1b62ac96cd2be7ff5410\transformed\material-1.12.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\milk0\.gradle\caches\8.9\transforms\b8832ce08669243cd059a11648035f2e\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.7.0] C:\Users\milk0\.gradle\caches\8.9\transforms\15c97266a656759d83b0ce2dbc8911e1\transformed\appcompat-resources-1.7.0\AndroidManifest.xml:2:1-7:12
@@ -76,9 +76,21 @@ uses-permission#android.permission.SYSTEM_ALERT_WINDOW
 ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:7:5-77
 	android:name
 		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:7:22-75
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:8:5-77
+	android:name
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:8:22-74
+uses-permission#android.permission.FOREGROUND_SERVICE_MICROPHONE
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:9:5-88
+	android:name
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:9:22-85
+uses-permission#android.permission.ACCESS_BACKGROUND_LOCATION
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:10:5-84
+	android:name
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:10:22-82
 application
-ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:11:5-43:19
-INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:11:5-43:19
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:12:5-59:19
+INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:12:5-59:19
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\milk0\.gradle\caches\8.9\transforms\0287b85c73ce1b62ac96cd2be7ff5410\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\milk0\.gradle\caches\8.9\transforms\0287b85c73ce1b62ac96cd2be7ff5410\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\milk0\.gradle\caches\8.9\transforms\b8832ce08669243cd059a11648035f2e\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -104,49 +116,73 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\mi
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.0] C:\Users\milk0\.gradle\caches\8.9\transforms\70d30e360373f7b038531b34bc487757\transformed\core-1.13.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:18:9-35
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:19:9-35
 	android:label
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:16:9-41
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:17:9-41
 	android:fullBackupContent
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:14:9-54
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:15:9-54
 	android:roundIcon
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:17:9-54
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:18:9-54
 	tools:targetApi
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:20:9-29
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:21:9-29
 	android:icon
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:15:9-43
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:16:9-43
 	android:allowBackup
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:12:9-35
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:13:9-35
 	android:theme
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:19:9-41
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:20:9-41
 	android:dataExtractionRules
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:13:9-65
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:14:9-65
 activity#com.example.oeg.StartActivity
-ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:22:9-29:20
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:23:9-30:20
 	android:exported
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:24:13-36
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:25:13-36
 	android:name
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:23:13-42
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:24:13-42
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:25:13-28:29
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:26:13-29:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:26:17-69
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:27:17-69
 	android:name
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:26:25-66
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:27:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:27:17-77
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:28:17-77
 	android:name
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:27:27-74
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:28:27-74
 activity#com.example.oeg.MainActivity
-ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:32:9-50
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:33:9-50
 	android:name
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:32:19-47
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:33:19-47
 service#com.example.oeg.overlay.OverlayService
-ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:35:9-37:75
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:36:9-40:57
+	android:exported
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:39:13-37
 	android:permission
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:37:13-72
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:38:13-72
+	android:foregroundServiceType
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:40:13-55
 	android:name
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:36:13-51
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:37:13-51
+service#com.example.oeg.Etc.MYAccessibilityService
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:42:9-52:19
+	android:exported
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:44:13-36
+	android:permission
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:45:13-79
+	android:name
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:43:13-55
+intent-filter#action:name:android.accessibilityservice.AccessibilityService
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:46:13-48:29
+action#android.accessibilityservice.AccessibilityService
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:47:17-92
+	android:name
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:47:25-89
+meta-data#android.accessibilityservice
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:49:13-51:72
+	android:resource
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:51:17-69
+	android:name
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:50:17-60
 uses-sdk
 INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml

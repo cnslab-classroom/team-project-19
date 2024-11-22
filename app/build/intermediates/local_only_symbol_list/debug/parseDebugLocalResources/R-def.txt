@@ -9,6 +9,7 @@ drawable dialog_background
 drawable ic_close
 drawable ic_launcher_background
 drawable ic_launcher_foreground
+drawable ic_notification_background
 drawable memo
 drawable memo_kkamppag
 drawable memo_start
@@ -32,6 +33,9 @@ layout overlay_layout
 mipmap ic_launcher
 mipmap ic_launcher_foreground
 mipmap ic_launcher_round
+mipmap ic_notification
+mipmap ic_notification_foreground
+mipmap ic_notification_round
 string app_name
 style Base.Theme.Oeg
 style Theme.Oeg

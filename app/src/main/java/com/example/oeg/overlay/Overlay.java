@@ -46,6 +46,8 @@ public class Overlay {
     //private static final int IDLE_TIME = 10 * 60 * 1000; // 10분 (밀리초)
     private static final int IDLE_TIME = 10000; // 30초
 
+    private WindowManager.LayoutParams params; /////////////////////추가
+
 
     public Overlay(Context context) {
         this.context = context;
@@ -57,10 +59,7 @@ public class Overlay {
         if (overlayView != null) return;
 
         // WindowManager 초기화
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-
-        // WindowManager 설정
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+        params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
@@ -68,6 +67,7 @@ public class Overlay {
                         | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
                 PixelFormat.TRANSLUCENT
         );
+
 
         // 화면 방향에 따라 위치 값 설정
         int orientation = context.getResources().getConfiguration().orientation;
