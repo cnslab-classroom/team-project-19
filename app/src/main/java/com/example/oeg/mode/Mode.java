@@ -70,6 +70,10 @@ public class Mode{
         this.model = model;
     }
 
+    public String getModel(){
+        return model;
+    }
+
     public void setMessage(String message) {
         this.message = message;
     }

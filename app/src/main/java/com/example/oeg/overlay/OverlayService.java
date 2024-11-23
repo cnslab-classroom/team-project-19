@@ -38,6 +38,8 @@ import com.example.oeg.R;
 import com.example.oeg.mode.Mode;
 import com.example.oeg.popup.PopupManager;
 
+import java.util.Objects;
+
 
 public class OverlayService extends Service implements Mode.ModeListener {
     private static final String CHANNEL_ID = "overlay_service_channel";
@@ -104,11 +106,15 @@ public class OverlayService extends Service implements Mode.ModeListener {
 
     @Override
     public void onNewReply(MessageParser.ParsedMessage parsedMessage) {
-        new Handler(Looper.getMainLooper()).post(() -> {
-            popupManager.showResponsePopup(this, parsedMessage, updatedResponse -> {
+        if(Objects.equals(mode.getModel(), "gpt-4")) {
+            new Handler(Looper.getMainLooper()).post(() -> {
+                popupManager.showResponsePopup(this, parsedMessage, updatedResponse -> {
 
+                });
             });
-        });
+        }else if(Objects.equals(mode.getModel(), "gpt-3.5-turbo")){
+            //말풍선에 parsedMessage.textContent 띄우기
+        }
     }
 
     @Override
