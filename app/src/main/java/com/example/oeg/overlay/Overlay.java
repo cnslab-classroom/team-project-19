@@ -1,10 +1,15 @@
 package com.example.oeg.overlay;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.Manifest;
 import android.app.Service;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
+import android.os.Looper;
 import android.os.OutcomeReceiver;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -12,6 +17,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
+import com.example.oeg.Etc.Clipboard;
 import com.example.oeg.Etc.MessageParser;
 import com.example.oeg.Etc.VoiceToText;
 import com.example.oeg.R;
@@ -31,6 +37,8 @@ import android.os.Bundle;
 import android.content.Intent;
 import com.example.oeg.MainActivity;
 import android.util.Log;
+
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.Random;
@@ -65,6 +73,12 @@ public class Overlay{
     private VoiceToText voiceToText;
     private Mode mode;
 
+    private String copiedText = "";
+
+    private WindowManager.LayoutParams params;
+
+
+
 
 
 
@@ -73,10 +87,7 @@ public class Overlay{
         this.windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         mode = Mode.getInstance();
         this.voiceToText = voiceToText;
-
     }
-
-
 
 
     public void showOverlay() {
@@ -86,14 +97,14 @@ public class Overlay{
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
         // WindowManager 설정
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+        params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
+                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON,
                 PixelFormat.TRANSLUCENT
         );
+
 
         // 화면 방향에 따라 위치 값 설정
         int orientation = context.getResources().getConfiguration().orientation;
@@ -114,7 +125,55 @@ public class Overlay{
         //overlayView.setBackgroundColor(Color.TRANSPARENT);
 
         ImageView character = overlayView.findViewById(R.id.character_image);
+//////////////////////////////////////////////////////////////////////////////////////////////////
+        overlayView.setFocusableInTouchMode(true);// 포커스
+        overlayView.setFocusable(true);
 
+        overlayView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    Log.d("Overlay", "포커스를 획득!");
+
+                    final Handler handler = new Handler(Looper.getMainLooper());
+                    final long startTime = System.currentTimeMillis();
+                    final long duration = 10000; // 10초
+                    final long checkInterval = 500; // 0.5초
+                    Runnable checkClipboardRunnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            // 조건 체크
+                            if (!Objects.equals(Clipboard.getCurrentCopiedText(), "")) {
+                                copiedText = Clipboard.getCurrentCopiedText();
+                                mode.setMessage(copiedText);
+                                mode.sendMessage();
+                                Log.d("Overlay", "클립보드 보냄");
+
+                                params.flags |= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                                windowManager.updateViewLayout(overlayView, params);
+                                Log.d("Overlay", "포커스 해제됨 (클립보드 보내짐)");
+                                return;
+                            }
+
+                            if (System.currentTimeMillis() - startTime < duration) {
+                                handler.postDelayed(this, checkInterval);
+                            } else {
+                                Log.d("Overlay", "사용자가 복사를 안해서 포커스 끝나게 생김");
+                                params.flags |= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+                                windowManager.updateViewLayout(overlayView, params);
+                                Log.d("Overlay", "포커스 해제됨 (시간 다됨 10초)");
+                            }
+                        }
+                    };
+                    handler.post(checkClipboardRunnable);
+                }else {
+                    Log.d("Overlay", "포커스 없음.");
+                }
+
+            }
+        });
+
+///////////////////////////////////////////////////////////////////////////////////
 
         // Glide로 GIF 이미지 로드
         Glide.with(context)
@@ -177,9 +236,7 @@ public class Overlay{
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 resetIdleTimer();   // 터치 시 타이머 초기화
                 if(isNormalMode){  //녹음
-                    Intent intent = new Intent("com.example.oeg.OVERLAY_ACTION");
-                    intent.putExtra("action", "record");  // 동작 전달
-                    context.sendBroadcast(intent);
+                    voiceToText.startListening();
                     return true;
                 }
                 else{ //녹음,드래그 버튼
@@ -506,13 +563,14 @@ public class Overlay{
 
         dragButton.setOnClickListener(v -> {
             Log.d("Overlay", "드래그 버튼 클릭됨");
+            Toast.makeText(context, "복사를 하도록 하게.", Toast.LENGTH_SHORT).show();
+            params.flags &= ~WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+            windowManager.updateViewLayout(overlayView, params);
+            overlayView.requestFocus();
+            Log.d("Overlay", "FLAG_NOT_FOCUSABLE 제거됨");
+
             recordButton.setVisibility(View.GONE);
             dragButton.setVisibility(View.GONE);
-
-            String draggedText = MYAccessibilityService.getCurrentSelectedText();
-            mode.setMessage(draggedText);
-            mode.sendMessage();
-
         });
 
         // 버튼이 이미 생성된 경우 가시성 토글
@@ -639,6 +697,7 @@ public class Overlay{
     public void destroy() {
         //super.onDestroy();
         idleHandler.removeCallbacks(idleRunnable);
+        windowManager.removeView(overlayView);
         voiceToText.destroy();
     }
 }

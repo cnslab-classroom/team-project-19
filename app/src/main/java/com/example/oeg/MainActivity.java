@@ -1,6 +1,10 @@
 package com.example.oeg;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,12 +14,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.oeg.overlay.Overlay;
@@ -26,12 +32,13 @@ public class MainActivity extends AppCompatActivity {
     private static final int OVERLAY_PERMISSION_REQUEST_CODE = 1234;
     private static final int RECORD_AUDIO_PERMISSION_REQUEST_CODE = 5678;
 
+    private static final String ACCESSIBILITY_SERVICE_ID = "com.example.oeg/.Etc.MYAccessibilityService";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // 레이아웃을 최소화하거나 공백으로 설정
         setContentView(R.layout.activity_main);
-        moveTaskToBack(true); // 앱을 백그라운드로 이동
 
         // 오버레이 권한 확인
         if (!Settings.canDrawOverlays(this)) {
@@ -41,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
             requestRecordAudioPermission();
         } else {
             startOverlayService();
+        }
+
+        if (!isAccessibilityServiceEnabled(this, ACCESSIBILITY_SERVICE_ID)) {
+            // 접근성 설정 페이지로 이동합니다.
+            requestAccessibilityPermission();
         }
     }
 
@@ -92,8 +104,29 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-}
 
+    private void requestAccessibilityPermission() {
+        Toast.makeText(this, "접근성 서비스 권한이 필요합니다. 설정에서 활성화해주세요.", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+        startActivity(intent);
+    }
+
+    // 접근성 서비스가 활성화되어 있는지 확인
+    private boolean isAccessibilityServiceEnabled(Context context, String serviceId) {
+        String enabledServices = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);
+        if (!TextUtils.isEmpty(enabledServices)) {
+            TextUtils.SimpleStringSplitter splitter = new TextUtils.SimpleStringSplitter(':');
+            splitter.setString(enabledServices);
+            while (splitter.hasNext()) {
+                String service = splitter.next();
+                if (service.equalsIgnoreCase(serviceId)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
 /*
 package com.example.oeg;
 

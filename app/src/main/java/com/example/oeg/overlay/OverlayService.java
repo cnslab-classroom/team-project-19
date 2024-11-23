@@ -5,10 +5,14 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.graphics.PixelFormat;
@@ -25,6 +29,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 
+import com.example.oeg.Etc.Clipboard;
 import com.example.oeg.Etc.MessageParser;
 import com.example.oeg.Etc.VoiceToText;
 import com.example.oeg.MainActivity;
@@ -42,7 +47,8 @@ public class OverlayService extends Service implements Mode.ModeListener {
     private VoiceToText voiceToText;
     private PopupManager popupManager;
 
-    private Observer<MessageParser.ParsedMessage> replyObserver;
+    private ClipboardManager clipboardManager;
+
 
     @Override
     public void onCreate() {
@@ -60,10 +66,14 @@ public class OverlayService extends Service implements Mode.ModeListener {
         mode = Mode.getInstance();
         mode.addListener(this);
 
+        clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+
         overlay = new Overlay(this, voiceToText);
         overlay.showOverlay();
 
     }
+
+
 
     private void createNotificationChannel() {
         NotificationChannel serviceChannel = new NotificationChannel(

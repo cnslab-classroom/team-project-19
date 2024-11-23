@@ -21,6 +21,7 @@ id btn_close
 id character_image
 id codeContainer
 id drag_area
+id overlay_view
 id popup_layout
 id resize_handle
 id response_edit_text

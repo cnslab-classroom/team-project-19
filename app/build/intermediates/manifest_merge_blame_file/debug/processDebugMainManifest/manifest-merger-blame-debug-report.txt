@@ -39,82 +39,82 @@
 22-->[androidx.core:core:1.13.0] C:\Users\milk0\.gradle\caches\8.9\transforms\70d30e360373f7b038531b34bc487757\transformed\core-1.13.0\AndroidManifest.xml:26:22-94
 23
 24    <application
-24-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:12:5-59:19
+24-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:13:5-61:19
 25        android:allowBackup="true"
-25-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:13:9-35
+25-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:14:9-35
 26        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 26-->[androidx.core:core:1.13.0] C:\Users\milk0\.gradle\caches\8.9\transforms\70d30e360373f7b038531b34bc487757\transformed\core-1.13.0\AndroidManifest.xml:28:18-86
 27        android:dataExtractionRules="@xml/data_extraction_rules"
-27-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:14:9-65
+27-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:15:9-65
 28        android:debuggable="true"
 29        android:extractNativeLibs="false"
 30        android:fullBackupContent="@xml/backup_rules"
-30-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:15:9-54
+30-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:16:9-54
 31        android:icon="@mipmap/ic_launcher"
-31-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:16:9-43
+31-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:17:9-43
 32        android:label="@string/app_name"
-32-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:17:9-41
+32-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:18:9-41
 33        android:roundIcon="@mipmap/ic_launcher_round"
-33-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:18:9-54
+33-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:19:9-54
 34        android:supportsRtl="true"
-34-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:19:9-35
+34-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:20:9-35
 35        android:testOnly="true"
-35-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:20:9-32
+35-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:21:9-32
 36        android:theme="@style/Theme.Oeg" >
-36-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:21:9-41
+36-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:22:9-41
 37        <activity
-37-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:24:9-31:20
+37-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:25:9-32:20
 38            android:name="com.example.oeg.StartActivity"
-38-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:25:13-42
+38-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:26:13-42
 39            android:exported="true" >
-39-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:26:13-36
+39-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:27:13-36
 40            <intent-filter>
-40-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:27:13-30:29
+40-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:28:13-31:29
 41                <action android:name="android.intent.action.MAIN" />
-41-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:28:17-69
-41-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:28:25-66
+41-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:29:17-69
+41-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:29:25-66
 42
 43                <category android:name="android.intent.category.LAUNCHER" />
-43-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:29:17-77
-43-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:29:27-74
+43-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:30:17-77
+43-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:30:27-74
 44            </intent-filter>
 45        </activity>
 46        <activity android:name="com.example.oeg.MainActivity" />
-46-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:34:9-50
-46-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:34:19-47
+46-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:35:9-50
+46-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:35:19-47
 47
 48        <service
-48-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:37:9-43:19
+48-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:38:9-44:19
 49            android:name="com.example.oeg.overlay.OverlayService"
-49-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:38:13-51
+49-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:39:13-51
 50            android:exported="false"
-50-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:40:13-37
+50-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:41:13-37
 51            android:foregroundServiceType="microphone"
-51-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:41:13-55
+51-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:42:13-55
 52            android:permission="android.permission.SYSTEM_ALERT_WINDOW" >
-52-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:39:13-72
+52-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:40:13-72
 53        </service>
 54        <service
-54-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:45:9-55:19
+54-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:46:9-56:19
 55            android:name="com.example.oeg.Etc.MYAccessibilityService"
-55-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:46:13-55
+55-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:47:13-55
 56            android:exported="true"
-56-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:48:13-36
+56-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:49:13-36
 57            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE" >
-57-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:47:13-79
+57-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:48:13-79
 58            <intent-filter>
-58-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:49:13-51:29
+58-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:50:13-52:29
 59                <action android:name="android.accessibilityservice.AccessibilityService" />
-59-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:50:17-92
-59-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:50:25-89
+59-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:51:17-92
+59-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:51:25-89
 60            </intent-filter>
 61
 62            <meta-data
-62-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:52:13-54:72
+62-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:53:13-55:72
 63                android:name="android.accessibilityservice"
-63-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:53:17-60
+63-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:54:17-60
 64                android:resource="@xml/accessibility_service_config" />
-64-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:54:17-69
+64-->C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:55:17-69
 65        </service>
 66
 67        <provider
