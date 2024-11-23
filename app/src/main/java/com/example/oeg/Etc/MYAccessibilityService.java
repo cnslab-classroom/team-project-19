@@ -17,7 +17,6 @@ public class MYAccessibilityService extends AccessibilityService {
     public void onServiceConnected() {
         super.onServiceConnected();
 
-        // ClipboardManager 초기화 및 리스너 설정
         clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         if (clipboardManager != null) {
             clipboardManager.addPrimaryClipChangedListener(() -> {

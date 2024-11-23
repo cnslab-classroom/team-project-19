@@ -43,7 +43,7 @@
 
         </service>
 
-        <service
+        <!--<service
             android:name=".Etc.MYAccessibilityService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:exported="true">
@@ -53,7 +53,12 @@
             <meta-data
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config" />
-        </service>
+        </service>-->
+
+        <service
+            android:name=".Etc.ClipboardMonitor"
+            android:enabled="true"
+            android:exported="false" />
 
 
 

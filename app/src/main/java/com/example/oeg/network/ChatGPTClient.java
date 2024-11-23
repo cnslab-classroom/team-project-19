@@ -1,6 +1,7 @@
 package com.example.oeg.network;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import com.example.oeg.Etc.MessageParser;
 import com.example.oeg.model.GptRequest;
@@ -21,7 +22,11 @@ public class ChatGPTClient {
     private Gson gson; // 통신할 때 사용하는 데이터 형식
 
     public ChatGPTClient() {
-        client = new OkHttpClient();
+        client = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build();
         gson = new Gson();
     }
 

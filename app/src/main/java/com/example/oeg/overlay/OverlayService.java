@@ -30,6 +30,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 
 import com.example.oeg.Etc.Clipboard;
+import com.example.oeg.Etc.ClipboardMonitor;
 import com.example.oeg.Etc.MessageParser;
 import com.example.oeg.Etc.VoiceToText;
 import com.example.oeg.MainActivity;
@@ -66,7 +67,8 @@ public class OverlayService extends Service implements Mode.ModeListener {
         mode = Mode.getInstance();
         mode.addListener(this);
 
-        clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        Intent serviceIntent = new Intent(this, ClipboardMonitor.class);
+        startService(serviceIntent);
 
         overlay = new Overlay(this, voiceToText);
         overlay.showOverlay();

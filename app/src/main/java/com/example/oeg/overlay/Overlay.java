@@ -143,7 +143,7 @@ public class Overlay{
                         @Override
                         public void run() {
                             // 조건 체크
-                            if (!Objects.equals(Clipboard.getCurrentCopiedText(), "")) {
+                            if (!Objects.equals(Clipboard.getCurrentCopiedText(), copiedText)) {
                                 copiedText = Clipboard.getCurrentCopiedText();
                                 mode.setMessage(copiedText);
                                 mode.sendMessage();
@@ -151,7 +151,8 @@ public class Overlay{
 
                                 params.flags |= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
                                 windowManager.updateViewLayout(overlayView, params);
-                                Log.d("Overlay", "포커스 해제됨 (클립보드 보내짐)");
+                                overlayView.clearFocus();
+                                Log.d("Overlay", "포커스 해제됨 (클립보드 보내짐)"+ params.flags);
                                 return;
                             }
 
@@ -161,7 +162,8 @@ public class Overlay{
                                 Log.d("Overlay", "사용자가 복사를 안해서 포커스 끝나게 생김");
                                 params.flags |= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
                                 windowManager.updateViewLayout(overlayView, params);
-                                Log.d("Overlay", "포커스 해제됨 (시간 다됨 10초)");
+                                overlayView.clearFocus();
+                                Log.d("Overlay", "포커스 해제됨 (시간 다됨 10초)"+ params.flags);
                             }
                         }
                     };
@@ -563,11 +565,16 @@ public class Overlay{
 
         dragButton.setOnClickListener(v -> {
             Log.d("Overlay", "드래그 버튼 클릭됨");
-            Toast.makeText(context, "복사를 하도록 하게.", Toast.LENGTH_SHORT).show();
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(() -> {
+                Toast.makeText(context, "복사를 하도록 하게.", Toast.LENGTH_SHORT).show();
+            });
+
             params.flags &= ~WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
             windowManager.updateViewLayout(overlayView, params);
+
             overlayView.requestFocus();
-            Log.d("Overlay", "FLAG_NOT_FOCUSABLE 제거됨");
+            Log.d("Overlay", "FLAG_NOT_FOCUSABLE 제거됨"+ params.flags);
 
             recordButton.setVisibility(View.GONE);
             dragButton.setVisibility(View.GONE);

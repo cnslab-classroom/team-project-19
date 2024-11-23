@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:2:1-63:12
-INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:2:1-63:12
-INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:2:1-63:12
-INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:2:1-63:12
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:2:1-68:12
+INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:2:1-68:12
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\milk0\.gradle\caches\8.9\transforms\0287b85c73ce1b62ac96cd2be7ff5410\transformed\material-1.12.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\milk0\.gradle\caches\8.9\transforms\b8832ce08669243cd059a11648035f2e\transformed\constraintlayout-2.1.4\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat-resources:1.7.0] C:\Users\milk0\.gradle\caches\8.9\transforms\15c97266a656759d83b0ce2dbc8911e1\transformed\appcompat-resources-1.7.0\AndroidManifest.xml:2:1-7:12
@@ -89,8 +89,8 @@ ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\And
 	android:name
 		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:10:22-82
 application
-ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:13:5-61:19
-INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:13:5-61:19
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:13:5-66:19
+INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:13:5-66:19
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\milk0\.gradle\caches\8.9\transforms\0287b85c73ce1b62ac96cd2be7ff5410\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\milk0\.gradle\caches\8.9\transforms\0287b85c73ce1b62ac96cd2be7ff5410\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.1.4] C:\Users\milk0\.gradle\caches\8.9\transforms\b8832ce08669243cd059a11648035f2e\transformed\constraintlayout-2.1.4\AndroidManifest.xml:9:5-20
@@ -165,26 +165,14 @@ ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\And
 		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:42:13-55
 	android:name
 		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:39:13-51
-service#com.example.oeg.Etc.MYAccessibilityService
-ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:46:9-56:19
+service#com.example.oeg.Etc.ClipboardMonitor
+ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:58:9-61:40
+	android:enabled
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:60:13-35
 	android:exported
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:49:13-36
-	android:permission
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:48:13-79
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:61:13-37
 	android:name
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:47:13-55
-intent-filter#action:name:android.accessibilityservice.AccessibilityService
-ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:50:13-52:29
-action#android.accessibilityservice.AccessibilityService
-ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:51:17-92
-	android:name
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:51:25-89
-meta-data#android.accessibilityservice
-ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:53:13-55:72
-	android:resource
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:55:17-69
-	android:name
-		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:54:17-60
+		ADDED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml:59:13-49
 uses-sdk
 INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\milk0\AndroidStudioProjects\team-project-19\app\src\main\AndroidManifest.xml

@@ -37,10 +37,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // 레이아웃을 최소화하거나 공백으로 설정
         setContentView(R.layout.activity_main);
 
-        // 오버레이 권한 확인
         if (!Settings.canDrawOverlays(this)) {
             requestOverlayPermission();
 
@@ -50,10 +48,11 @@ public class MainActivity extends AppCompatActivity {
             startOverlayService();
         }
 
-        if (!isAccessibilityServiceEnabled(this, ACCESSIBILITY_SERVICE_ID)) {
-            // 접근성 설정 페이지로 이동합니다.
-            requestAccessibilityPermission();
-        }
+        /*if (!getPermissionState(this)) {
+            if (!isAccessibilityServiceEnabled(this, ACCESSIBILITY_SERVICE_ID)) {
+                requestAccessibilityPermission();
+            }
+        }*/
     }
 
     private void requestOverlayPermission() {
@@ -120,11 +119,26 @@ public class MainActivity extends AppCompatActivity {
             while (splitter.hasNext()) {
                 String service = splitter.next();
                 if (service.equalsIgnoreCase(serviceId)) {
+                    setPermissionState(context, true);
                     return true;
                 }
             }
         }
+
+        setPermissionState(context, false);
         return false;
+    }
+
+    private void setPermissionState(Context context, boolean isEnabled) {
+        context.getSharedPreferences("app_preferences", MODE_PRIVATE)
+                .edit()
+                .putBoolean("accessibility_enabled", isEnabled)
+                .apply();
+    }
+
+    private boolean getPermissionState(Context context) {
+        return context.getSharedPreferences("app_preferences", MODE_PRIVATE)
+                .getBoolean("accessibility_enabled", false);
     }
 }
 /*
