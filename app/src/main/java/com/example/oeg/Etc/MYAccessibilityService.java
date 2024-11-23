@@ -12,18 +12,19 @@ public class MYAccessibilityService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
+        Log.d("MYAccessibilityService", "드래그 받음: " + event.toString());
         if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED) {
             // 선택된 텍스트 가져오기
             List<CharSequence> textList = event.getText();
             if (textList != null && !textList.isEmpty()) {
                 currentSelectedText = textList.get(0).toString();
                 Log.d("SelectedText", "드래그한 내용: " + currentSelectedText);
+            }else{
+                Log.d("SelectedText", "드래그한 내용이 없음");
             }
         }
 
     }
-
-
     @Override
     public void onInterrupt() {
         // 서비스가 인터럽트되었을 때 처리하는 부분

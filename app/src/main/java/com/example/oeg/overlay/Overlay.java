@@ -1,6 +1,9 @@
 package com.example.oeg.overlay;
 
+import android.Manifest;
+import android.app.Service;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.OutcomeReceiver;
 import android.view.LayoutInflater;
@@ -8,6 +11,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
+import com.example.oeg.Etc.MessageParser;
+import com.example.oeg.Etc.VoiceToText;
 import com.example.oeg.R;
 import com.bumptech.glide.Glide;
 
@@ -29,9 +35,19 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.Random;
 import android.os.Process;
-import com.example.oeg.Etc.MYAccessibilityService;
 
-public class Overlay {
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStore;
+import androidx.lifecycle.ViewModelStoreOwner;
+
+import com.example.oeg.Etc.MYAccessibilityService;
+import com.example.oeg.mode.Mode;
+import com.example.oeg.popup.PopupManager;
+
+public class Overlay{
     private final Context context;
     private final WindowManager windowManager;
     private View overlayView;
@@ -46,11 +62,21 @@ public class Overlay {
     //private static final int IDLE_TIME = 10 * 60 * 1000; // 10분 (밀리초)
     private static final int IDLE_TIME = 10000; // 30초
 
+    private VoiceToText voiceToText;
+    private Mode mode;
 
-    public Overlay(Context context) {
+
+
+
+    public Overlay(Context context, VoiceToText voiceToText) {
         this.context = context;
         this.windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        mode = Mode.getInstance();
+        this.voiceToText = voiceToText;
+
     }
+
+
 
 
     public void showOverlay() {
@@ -327,9 +353,8 @@ public class Overlay {
                 studyButton.setVisibility(View.GONE);
                 endButton.setVisibility(View.GONE);
 
-                Intent intent = new Intent("com.example.oeg.OVERLAY_ACTION");
-                intent.putExtra("action", "start_study_mode");  // 동작 전달
-                context.sendBroadcast(intent);
+                mode.setModel("gpt-4"); // 모드 변경
+                Log.d("Overlay","gpt-4로 변경");
 
             }
         });
@@ -363,11 +388,13 @@ public class Overlay {
 
         endButton.setOnClickListener(v -> {
             Log.d("Overlay", "종료버튼 클릭됨");
-
-            Intent intent = new Intent("com.example.oeg.OVERLAY_ACTION");
-            intent.putExtra("action", "end");  // 동작 전달
-            context.sendBroadcast(intent);
-
+            if (context instanceof Service) {
+                Service service = (Service) context;
+                service.stopSelf();
+            } else {
+                Intent stopIntent = new Intent(context, OverlayService.class);
+                context.stopService(stopIntent);
+            }
 
         });
 
@@ -443,11 +470,8 @@ public class Overlay {
                 Log.d("Overlay", "녹음 버튼 클릭됨");
                 recordButton.setVisibility(View.GONE);
                 dragButton.setVisibility(View.GONE);
+                voiceToText.startListening();
 
-
-                Intent intent = new Intent("com.example.oeg.OVERLAY_ACTION");
-                intent.putExtra("action", "record");  // 동작 전달
-                context.sendBroadcast(intent);
 
             }
         });
@@ -485,9 +509,9 @@ public class Overlay {
             recordButton.setVisibility(View.GONE);
             dragButton.setVisibility(View.GONE);
 
-            Intent intent = new Intent("com.example.oeg.OVERLAY_ACTION");
-            intent.putExtra("action", "drag");  // 동작 전달
-            context.sendBroadcast(intent);
+            String draggedText = MYAccessibilityService.getCurrentSelectedText();
+            mode.setMessage(draggedText);
+            mode.sendMessage();
 
         });
 
@@ -540,6 +564,9 @@ public class Overlay {
                         .asGif()
                         .load(R.drawable.basic_kkamppag)  // 새로운 gif 파일 (memo.gif)
                         .into(characterImage);  // ImageView에 설정
+
+                mode.setModel("gpt-3.5-turbo");
+                Log.d("Overlay","gpt-3.5-turbo로 변경");
 
                 nomalButton.setVisibility(View.GONE);
             });
@@ -608,10 +635,10 @@ public class Overlay {
 
     }
 
-    // onDestroy()에서 핸들러 제거 (메모리 누수 방지)
     //@Override
     public void destroy() {
         //super.onDestroy();
         idleHandler.removeCallbacks(idleRunnable);
+        voiceToText.destroy();
     }
 }

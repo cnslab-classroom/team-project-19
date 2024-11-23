@@ -63,6 +63,9 @@ public class PopupManager {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_response_popup);
 
+        dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY);// 추가
+
+
         View popupLayout = dialog.findViewById(R.id.popup_layout);
         popupLayout.setBackgroundColor(getRandomPastelColor());
 

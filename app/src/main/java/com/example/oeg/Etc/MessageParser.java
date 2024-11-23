@@ -1,23 +1,24 @@
 package com.example.oeg.Etc;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MessageParser {
-    public static class ParsedMessage { // 파싱 한거 담는거
+    public static class ParsedMessage implements Serializable { // 파싱 한거 담는거
         public String textContent; // 일반 텍스트 부분
-        public List<String> codeBlocks; // 코드 블록 목록
+        public ArrayList<String> codeBlocks; // 코드 블록 목록
 
-        public ParsedMessage(String textContent, List<String> codeBlocks) {
+        public ParsedMessage(String textContent, ArrayList<String> codeBlocks) {
             this.textContent = textContent;
             this.codeBlocks = codeBlocks;
         }
     }
 
     public static ParsedMessage parseResponse(String response) {
-        List<String> codeBlocks = new ArrayList<>();
+        ArrayList<String> codeBlocks = new ArrayList<>();
         StringBuilder textContentBuilder = new StringBuilder();
 
         // ```로 감싸진 부분 찾기

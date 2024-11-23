@@ -8,5 +8,5 @@ public final class BuildConfig {
   public static final String APPLICATION_ID = "com.example.oeg.test";
   public static final String BUILD_TYPE = "debug";
   // Field from default config.
-  public static final String OPENAI_API_KEY = "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";
+  public static final String OPENAI_API_KEY = "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";
 }
