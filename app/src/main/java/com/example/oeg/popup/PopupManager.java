@@ -8,10 +8,12 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -107,6 +109,29 @@ public class PopupManager {
                 | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH;
 
         dialog.getWindow().setAttributes(layoutParams);
+
+        //포커스 해제
+        dialog.getWindow().getDecorView().setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+                    dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+                    WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+                    dialog.getWindow().setAttributes(params);
+                    Log.d("PopupManager", "포커스해제");
+                    return true;
+                }
+                return false;
+            }
+        });
+        //포커스 복구
+        responseEditText.setOnClickListener(v -> {
+            dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE);
+            WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+            dialog.getWindow().setAttributes(params);
+            Log.d("PopupManager", "포커스복구");
+        });
+
 
         // 더블 클릭 이벤트 추가
         popupLayout.setOnTouchListener(new DoubleTapListener(context, popupLayout));
