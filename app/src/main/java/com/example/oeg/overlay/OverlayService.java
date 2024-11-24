@@ -113,7 +113,9 @@ public class OverlayService extends Service implements Mode.ModeListener {
                 });
             });
         }else if(Objects.equals(mode.getModel(), "gpt-3.5-turbo")){
-            //말풍선에 parsedMessage.textContent 띄우기
+            new Handler(Looper.getMainLooper()).post(() -> {
+                //말풍선에 parsedMessage.textContent 띄우기
+            });
         }
     }
 
