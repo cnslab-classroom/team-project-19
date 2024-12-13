@@ -79,14 +79,21 @@ public class PopupManager {
         responseEditText.setVisibility(View.VISIBLE);  // EditText는 보이기
 
         for (String code : parsedMessage.codeBlocks) {
+            // 코드 블록 추가
             TextView codeTextView = new TextView(context);
-            codeTextView.setText(code);
-            codeTextView.setTypeface(Typeface.MONOSPACE);
-            codeTextView.setTextSize(14);
-            codeTextView.setPadding(8, 8, 8, 8);
-            codeTextView.setBackgroundColor(Color.parseColor("#F0F0F0"));
-            codeContainer.addView(codeTextView);
+            codeTextView.setText(code); // 코드 내용 설정
+            codeTextView.setTypeface(Typeface.MONOSPACE); // 고정 폭 글꼴
+            codeTextView.setTextSize(14); // 글꼴 크기
+            codeTextView.setPadding(16, 16, 16, 16); // 패딩 추가
+            codeTextView.setBackgroundColor(Color.parseColor("#F5F5F5")); // 코드 배경색 설정
+            codeTextView.setTextColor(Color.BLACK); // 텍스트 색상 설정
+            codeTextView.setLayoutParams(new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            )); // 레이아웃 매개변수 설정
+            codeContainer.addView(codeTextView); // 코드 블록을 레이아웃에 추가
         }
+
 
         ImageButton closeButton = dialog.findViewById(R.id.btn_close);
         closeButton.setOnClickListener(v -> {

@@ -25,11 +25,20 @@
         android:textSize="16sp" />
 
     <!-- 코드 블록 컨테이너 -->
-    <LinearLayout
-        android:id="@+id/codeContainer"
-        android:orientation="vertical"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_below="@id/response_edit_text"
+        android:layout_above="@id/resize_handle"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:id="@+id/codeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp" />
+    </ScrollView>
 
     <!-- 닫기 버튼 (X 모양) -->
     <ImageButton

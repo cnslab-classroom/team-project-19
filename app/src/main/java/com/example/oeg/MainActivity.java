@@ -47,7 +47,10 @@ public class MainActivity extends AppCompatActivity {
             startOverlayService();
         }
 
+
     }
+
+
 
     private void requestOverlayPermission() {
         Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,

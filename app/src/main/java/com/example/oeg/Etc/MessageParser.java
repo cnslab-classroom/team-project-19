@@ -22,8 +22,9 @@ public class MessageParser {
         StringBuilder textContentBuilder = new StringBuilder();
 
         // ```로 감싸진 부분 찾기
-        Pattern pattern = Pattern.compile("(?s)(```(?:\\w+)?\\s*\\n(.*?)```)");
+        Pattern pattern = Pattern.compile("(?s)```(?:[ \\t]*([a-zA-Z0-9]+))?\\s*\\n(.*?)```");
         Matcher matcher = pattern.matcher(response);
+
 
         int lastEnd = 0;
         while (matcher.find()) {
