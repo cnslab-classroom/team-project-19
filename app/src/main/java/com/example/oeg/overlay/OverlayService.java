@@ -37,6 +37,7 @@ import com.example.oeg.MainActivity;
 import com.example.oeg.R;
 import com.example.oeg.mode.Mode;
 import com.example.oeg.popup.PopupManager;
+import com.example.oeg.popup.TextBalloon;
 
 import java.util.Objects;
 
@@ -114,7 +115,12 @@ public class OverlayService extends Service implements Mode.ModeListener {
             });
         }else if(Objects.equals(mode.getModel(), "gpt-3.5-turbo")){
             new Handler(Looper.getMainLooper()).post(() -> {
+
                 //말풍선에 parsedMessage.textContent 띄우기
+                TextBalloon textHandler = new TextBalloon(this);
+
+                // parsedMessage.textContent를 말풍선에 출력
+                textHandler.showBubbleText(parsedMessage.textContent,overlay.params.x,overlay.params.y);
             });
         }
     }
