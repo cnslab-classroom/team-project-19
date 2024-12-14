@@ -33,7 +33,7 @@
 
 
         <activity android:name=".MainActivity" />
-
+        <activity android:name=".IntroActivity"/>
 
         <service
             android:name=".overlay.OverlayService"
