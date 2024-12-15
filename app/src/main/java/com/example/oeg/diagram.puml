@@ -100,7 +100,7 @@ package model {
     }
 
     Mode *-- ModeListener : 알림
-    Mode *-- ParsedMessage : 의존
+    Mode --> ParsedMessage : 의존
     Mode --> ChatGPTClient : 사용
     Mode --> GptRequest : 사용
     Mode --> GptRequestMessage : 사용
