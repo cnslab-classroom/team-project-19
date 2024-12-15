@@ -16,7 +16,9 @@ package Etc {
         + void onDestroy()
     }
 
-    ClipboardMonitor --> Clipboard : 사용
+    ClipboardMonitor --> Clipboard : 사용(업데이트)
+    ClipboardMonitor --> ClipboardManager : 시스템 클립보드 감지
+    ClipboardMonitor --> Context : getSystemService 통한 초기화
 
     class MessageParser {
         + static ParsedMessage parseResponse(String response)
@@ -45,7 +47,11 @@ package Etc {
         + void onSpeechError(String errorMessage)
     }
 
-    VoiceToText o-- SpeechToTextListener : 구현
+    VoiceToText o-- SpeechToTextListener : 리스너 소유
+    VoiceToText --> SpeechRecognizer : 사용
+    VoiceToText --> Intent : 사용
+    VoiceToText --> Context : 사용
+    VoiceToText --> SpeechRecognizer.RecognitionListener : 구현(내부 리스너)
 }
 
 package model {
@@ -67,7 +73,7 @@ package model {
     }
 
     interface ModeListener {
-        + void onNewReply(MessageParser.ParsedMessage parsedMessage)
+        + void onNewReply(ParsedMessage parsedMessage)
         + void onError(String error)
     }
 
@@ -83,9 +89,14 @@ package model {
         + Message(String role, String content)
     }
 
+    class GptResponse {
+       - List<GptResponseChoice> choices
+       + List<GptResponseChoice> getChoices()
+    }
+
     class "GptResponse.Choice" as GptResponseChoice {
-        - Message message
-        + Message getMessage()
+        - GptResponseMessage message
+        + GptResponseMessage getMessage()
     }
 
     class "GptResponse.Message" as GptResponseMessage {
@@ -93,15 +104,15 @@ package model {
         + String getContent()
     }
 
-    GptRequest *-- GptRequestMessage : 포함
-    GptResponse *-- GptResponseChoice : 포함
-    GptResponseChoice *-- GptResponseMessage : 포함
-
     Mode *-- ModeListener : 알림
     Mode *-- ParsedMessage : 의존
     Mode --> ChatGPTClient : 사용
     Mode --> GptRequest : 사용
     Mode --> GptRequestMessage : 사용
+    GptRequest *-- GptRequestMessage : 포함
+    GptResponse *-- GptResponseChoice : 포함
+    GptResponseChoice *-- GptResponseMessage : 포함
+    Mode ..|> ChatGPTResponseListener : 익명 구현
 }
 
 package network {
@@ -113,13 +124,15 @@ package network {
     }
 
     interface ChatGPTResponseListener {
-        + void onResponse(MessageParser.ParsedMessage parsedMessage)
+        + void onResponse(ParsedMessage parsedMessage)
         + void onFailure(String error)
     }
 
-    ChatGPTClient o-- ChatGPTResponseListener : 구현
+    ChatGPTClient o-- ChatGPTResponseListener : 리스너 사용
     ChatGPTClient --> GptRequest : 사용
     ChatGPTClient --> GptResponse : 사용
+    ChatGPTClient --> OkHttpClient : 사용
+    ChatGPTClient --> Gson : 사용
 }
 
 package overlay {
@@ -142,7 +155,7 @@ package overlay {
         - PopupManager popupManager
         + void onCreate()
         + void onStartCommand(Intent intent, int flags, int startId)
-        + void onNewReply(MessageParser.ParsedMessage parsedMessage)
+        + void onNewReply(ParsedMessage parsedMessage)
         + void onError(String error)
         + void onDestroy()
     }
@@ -150,13 +163,21 @@ package overlay {
     OverlayService --> Overlay : 사용
     OverlayService --> Mode : 사용
     OverlayService --> VoiceToText : 사용
-    OverlayService --> PopupManager : 사용
+    OverlayService --> PopupManager : 사용 (gpt-4일 때)
+    OverlayService --> TextBalloon : 사용 (gpt-3.5-turbo일 때)
+    OverlayService ..|> ModeListener
+
+    OverlayService ..|> SpeechToTextListener
+    Overlay --> Clipboard : 클립보드 텍스트 참조(복사 발생시 읽어옴)
+    Overlay --> Context : 사용
+    Overlay --> WindowManager : 사용
+    Overlay --> View : 사용
 }
 
 package popup {
     class PopupManager {
         - List<Dialog> activePopups
-        + void showResponsePopup(Context context, MessageParser.ParsedMessage response, Consumer<String> onResponse)
+        + void showResponsePopup(Context context, ParsedMessage response, Consumer onResponse)
         + void closeAllPopups()
     }
 
@@ -168,6 +189,11 @@ package popup {
     }
 
     PopupManager --> ParsedMessage : 사용
+    PopupManager --> Context : 사용
+    PopupManager --> Dialog : 사용
+    PopupManager --> Consumer : 사용
+    TextBalloon --> Context : 사용
+    TextBalloon --> WindowManager : 사용
 }
 
 package main {
@@ -189,6 +215,12 @@ package main {
     MainActivity --> OverlayService : 시작
     StartActivity --> IntroActivity : 시작
     StartActivity --> MainActivity : 시작
+
+    StartActivity --> Intent : 사용 (권한 요청)
+    IntroActivity --> Bundle : 사용
+    MainActivity --> Bundle : 사용
+    StartActivity --> Bundle : 사용
 }
 
 @enduml
+
