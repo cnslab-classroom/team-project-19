@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -29,40 +30,27 @@ import com.example.oeg.overlay.OverlayService;
 
 public class MainActivity extends AppCompatActivity {
     Overlay overlay;
-    private static final int OVERLAY_PERMISSION_REQUEST_CODE = 1234;
-    private static final int RECORD_AUDIO_PERMISSION_REQUEST_CODE = 5678;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
+        boolean isFirstRun = prefs.getBoolean("isFirstRun", true);
+
         setContentView(R.layout.activity_main);
-
-        if (!Settings.canDrawOverlays(this)) {
-            requestOverlayPermission();
-
-        }else if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            requestRecordAudioPermission();
+        if(isFirstRun){
+            prefs.edit().putBoolean("isFirstRun", false).apply();
+            finishAffinity();
         } else {
             startOverlayService();
         }
 
 
+
     }
 
-
-
-    private void requestOverlayPermission() {
-        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                Uri.parse("package:" + getPackageName()));
-        startActivityForResult(intent, OVERLAY_PERMISSION_REQUEST_CODE);
-    }
-
-    private void requestRecordAudioPermission() {
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.RECORD_AUDIO},
-                RECORD_AUDIO_PERMISSION_REQUEST_CODE);
-    }
 
     private void startOverlayService() {
         Intent serviceIntent = new Intent(this, OverlayService.class);
@@ -71,34 +59,5 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == OVERLAY_PERMISSION_REQUEST_CODE) {
-            if (Settings.canDrawOverlays(this)) {
-                // 오버레이 권한이 허용되었으면 녹음 권한 확인
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    requestRecordAudioPermission();
-                } else {
-                    startOverlayService();
-                }
-            } else {
-                Toast.makeText(this, "오버레이 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == RECORD_AUDIO_PERMISSION_REQUEST_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startOverlayService();
-            } else {
-                Toast.makeText(this, "녹음 권한이 필요합니다.", Toast.LENGTH_SHORT).show();
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 
 }

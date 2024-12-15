@@ -19,10 +19,6 @@ public class IntroActivity extends AppCompatActivity {
         videoView.setVideoURI(videoUri);
 
         videoView.setOnCompletionListener(mediaPlayer -> {
-            // 비디오 재생 완료 후 isFirstRun을 false로 설정하고 메인 액티비티로 이동
-            SharedPreferences prefs = getSharedPreferences("Prefs", MODE_PRIVATE);
-            prefs.edit().putBoolean("isFirstRun", false).apply();
-
             Intent intent = new Intent(IntroActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
