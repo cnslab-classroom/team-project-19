@@ -1,16 +1,10 @@
 package com.example.oeg.overlay;
 
-import static androidx.core.content.ContextCompat.getSystemService;
 
-import android.Manifest;
 import android.app.Service;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.PixelFormat;
 import android.os.Looper;
-import android.os.OutcomeReceiver;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,7 +12,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.example.oeg.Etc.Clipboard;
-import com.example.oeg.Etc.MessageParser;
 import com.example.oeg.Etc.VoiceToText;
 import com.example.oeg.R;
 import com.bumptech.glide.Glide;
@@ -35,24 +28,12 @@ import android.app.Application;
 import android.app.Activity;
 import android.os.Bundle;
 import android.content.Intent;
-import com.example.oeg.MainActivity;
 import android.util.Log;
 
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.Random;
-import android.os.Process;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStore;
-import androidx.lifecycle.ViewModelStoreOwner;
 
 import com.example.oeg.mode.Mode;
-import com.example.oeg.popup.PopupManager;
 
 public class Overlay{
     private final Context context;
@@ -74,7 +55,7 @@ public class Overlay{
 
     private String copiedText = "";
 
-    private WindowManager.LayoutParams params;
+    WindowManager.LayoutParams params;
 
 
 

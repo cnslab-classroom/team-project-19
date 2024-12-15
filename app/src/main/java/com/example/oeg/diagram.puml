@@ -1,0 +1,194 @@
+@startuml
+
+package Etc {
+    class Clipboard {
+        - static volatile String currentCopiedText
+        + static synchronized String getCurrentCopiedText()
+        + static synchronized void updateCurrentCopiedText(String text)
+        + static synchronized void clearCurrentCopiedText()
+    }
+
+    class ClipboardMonitor {
+        - ClipboardManager clipboardManager
+        - ClipboardManager.OnPrimaryClipChangedListener clipChangedListener
+        + void onCreate()
+        + int onStartCommand(Intent intent, int flags, int startId)
+        + void onDestroy()
+    }
+
+    ClipboardMonitor --> Clipboard : 사용
+
+    class MessageParser {
+        + static ParsedMessage parseResponse(String response)
+    }
+
+    class ParsedMessage {
+        + String textContent
+        + ArrayList<String> codeBlocks
+    }
+
+    MessageParser *-- ParsedMessage : 포함
+
+    class VoiceToText {
+        - SpeechRecognizer speechRecognizer
+        - Intent intent
+        - SpeechToTextListener listener
+        - Context context
+        + VoiceToText(Context context, SpeechToTextListener listener)
+        + void startListening()
+        + void stopListening()
+        + void destroy()
+    }
+
+    interface SpeechToTextListener {
+        + void onSpeechResult(String result)
+        + void onSpeechError(String errorMessage)
+    }
+
+    VoiceToText o-- SpeechToTextListener : 구현
+}
+
+package model {
+    class Mode {
+        - static Mode instance
+        - String model
+        - String message
+        - ChatGPTClient chatGPTClient
+        - GptRequest request
+        - GptRequestMessage assistantMessage
+        - List<ModeListener> listeners
+        + static synchronized Mode getInstance()
+        + void addListener(ModeListener listener)
+        + void removeListener(ModeListener listener)
+        + void setModel(String model)
+        + String getModel()
+        + void setMessage(String message)
+        + void sendMessage()
+    }
+
+    interface ModeListener {
+        + void onNewReply(MessageParser.ParsedMessage parsedMessage)
+        + void onError(String error)
+    }
+
+    class GptRequest {
+        - String model
+        - List<GptRequestMessage> messages
+        + GptRequest(String model, List<GptRequestMessage> messages)
+    }
+
+    class "GptRequest.Message" as GptRequestMessage {
+        - String role
+        - String content
+        + Message(String role, String content)
+    }
+
+    class "GptResponse.Choice" as GptResponseChoice {
+        - Message message
+        + Message getMessage()
+    }
+
+    class "GptResponse.Message" as GptResponseMessage {
+        - String content
+        + String getContent()
+    }
+
+    GptRequest *-- GptRequestMessage : 포함
+    GptResponse *-- GptResponseChoice : 포함
+    GptResponseChoice *-- GptResponseMessage : 포함
+
+    Mode *-- ModeListener : 알림
+    Mode *-- ParsedMessage : 의존
+    Mode --> ChatGPTClient : 사용
+    Mode --> GptRequest : 사용
+    Mode --> GptRequestMessage : 사용
+}
+
+package network {
+    class ChatGPTClient {
+        - OkHttpClient client
+        - Gson gson
+        + ChatGPTClient()
+        + void sendMessage(GptRequest request, String model, ChatGPTResponseListener listener)
+    }
+
+    interface ChatGPTResponseListener {
+        + void onResponse(MessageParser.ParsedMessage parsedMessage)
+        + void onFailure(String error)
+    }
+
+    ChatGPTClient o-- ChatGPTResponseListener : 구현
+    ChatGPTClient --> GptRequest : 사용
+    ChatGPTClient --> GptResponse : 사용
+}
+
+package overlay {
+    class Overlay {
+        - Context context
+        - WindowManager windowManager
+        - View overlayView
+        - VoiceToText voiceToText
+        - Mode mode
+        + Overlay(Context context, VoiceToText voiceToText)
+        + void showOverlay()
+        + void removeOverlay()
+        + void destroy()
+    }
+
+    class OverlayService {
+        - Overlay overlay
+        - Mode mode
+        - VoiceToText voiceToText
+        - PopupManager popupManager
+        + void onCreate()
+        + void onStartCommand(Intent intent, int flags, int startId)
+        + void onNewReply(MessageParser.ParsedMessage parsedMessage)
+        + void onError(String error)
+        + void onDestroy()
+    }
+
+    OverlayService --> Overlay : 사용
+    OverlayService --> Mode : 사용
+    OverlayService --> VoiceToText : 사용
+    OverlayService --> PopupManager : 사용
+}
+
+package popup {
+    class PopupManager {
+        - List<Dialog> activePopups
+        + void showResponsePopup(Context context, MessageParser.ParsedMessage response, Consumer<String> onResponse)
+        + void closeAllPopups()
+    }
+
+    class TextBalloon {
+        - Context context
+        - WindowManager windowManager
+        + TextBalloon(Context context)
+        + void showBubbleText(String text, int characterX, int characterY)
+    }
+
+    PopupManager --> ParsedMessage : 사용
+}
+
+package main {
+    class IntroActivity {
+        + void onCreate(Bundle savedInstanceState)
+    }
+
+    class MainActivity {
+        + void onCreate(Bundle savedInstanceState)
+        + void startOverlayService()
+    }
+
+    class StartActivity {
+        + void onCreate(Bundle savedInstanceState)
+        + void requestOverlayPermission()
+        + void requestRecordAudioPermission()
+    }
+
+    MainActivity --> OverlayService : 시작
+    StartActivity --> IntroActivity : 시작
+    StartActivity --> MainActivity : 시작
+}
+
+@enduml

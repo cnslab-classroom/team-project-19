@@ -2,10 +2,6 @@ package com.example.oeg.mode;
 
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
 import com.example.oeg.Etc.MessageParser;
 import com.example.oeg.model.GptRequest;
 import com.example.oeg.network.ChatGPTClient;
@@ -19,8 +15,6 @@ public class Mode{
     private String model = "gpt-3.5-turbo"; // 기본 모델
     private String message;
     private ChatGPTClient chatGPTClient = new ChatGPTClient();
-    //private MutableLiveData<MessageParser.ParsedMessage> ReplyLiveData = new MutableLiveData<>();
-    //private MutableLiveData<String> errorLiveData = new MutableLiveData<>();
 
     private GptRequest request;
     private GptRequest.Message assistantMessage;
@@ -57,14 +51,6 @@ public class Mode{
             listener.onError(error);
         }
     }
-    /*
-    public LiveData<MessageParser.ParsedMessage> getNewReplyLiveData() {
-        return ReplyLiveData;
-    }
-
-    public LiveData<String> getErrorLiveData() {
-        return errorLiveData;
-    }*/
 
     public void setModel(String model) {
         this.model = model;

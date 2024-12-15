@@ -1,5 +1,4 @@
 package com.example.oeg.popup;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.ClipData;
@@ -13,7 +12,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -35,7 +33,6 @@ import androidx.core.content.FileProvider;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 public class PopupManager {
     private static final int MAX_POPUPS = 8; // 최대 팝업 개수
     private final List<Dialog> activePopups = new ArrayList<>();

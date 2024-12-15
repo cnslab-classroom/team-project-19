@@ -5,31 +5,14 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.IBinder;
 import android.os.Looper;
-import android.util.Log;
-import android.view.View;
-import android.view.WindowManager;
-import android.graphics.PixelFormat;
-import android.graphics.Color;
 import android.widget.Toast;
 import android.os.Handler;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.ImageView;
-import android.view.LayoutInflater;
 
 import androidx.core.app.NotificationCompat;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStore;
 
-import com.example.oeg.Etc.Clipboard;
 import com.example.oeg.Etc.ClipboardMonitor;
 import com.example.oeg.Etc.MessageParser;
 import com.example.oeg.Etc.VoiceToText;
@@ -45,13 +28,10 @@ import java.util.Objects;
 public class OverlayService extends Service implements Mode.ModeListener {
     private static final String CHANNEL_ID = "overlay_service_channel";
     private Overlay overlay;  // 기존 Overlay 클래스 인스턴스
-    private WindowManager windowManager;
 
     private Mode mode;
     private VoiceToText voiceToText;
     private PopupManager popupManager;
-
-    private ClipboardManager clipboardManager;
 
 
     @Override
