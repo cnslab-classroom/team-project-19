@@ -18,7 +18,6 @@ package Etc {
 
     ClipboardMonitor --> Clipboard : 사용(업데이트)
     ClipboardMonitor --> ClipboardManager : 시스템 클립보드 감지
-    ClipboardMonitor --> Context : getSystemService 통한 초기화
 
     class MessageParser {
         + static ParsedMessage parseResponse(String response)
@@ -48,10 +47,6 @@ package Etc {
     }
 
     VoiceToText o-- SpeechToTextListener : 리스너 소유
-    VoiceToText --> SpeechRecognizer : 사용
-    VoiceToText --> Intent : 사용
-    VoiceToText --> Context : 사용
-    VoiceToText --> SpeechRecognizer.RecognitionListener : 구현(내부 리스너)
 }
 
 package model {
@@ -131,8 +126,6 @@ package network {
     ChatGPTClient o-- ChatGPTResponseListener : 리스너 사용
     ChatGPTClient --> GptRequest : 사용
     ChatGPTClient --> GptResponse : 사용
-    ChatGPTClient --> OkHttpClient : 사용
-    ChatGPTClient --> Gson : 사용
 }
 
 package overlay {
@@ -169,9 +162,6 @@ package overlay {
 
     OverlayService ..|> SpeechToTextListener
     Overlay --> Clipboard : 클립보드 텍스트 참조(복사 발생시 읽어옴)
-    Overlay --> Context : 사용
-    Overlay --> WindowManager : 사용
-    Overlay --> View : 사용
 }
 
 package popup {
@@ -189,11 +179,6 @@ package popup {
     }
 
     PopupManager --> ParsedMessage : 사용
-    PopupManager --> Context : 사용
-    PopupManager --> Dialog : 사용
-    PopupManager --> Consumer : 사용
-    TextBalloon --> Context : 사용
-    TextBalloon --> WindowManager : 사용
 }
 
 package main {
@@ -213,13 +198,9 @@ package main {
     }
 
     MainActivity --> OverlayService : 시작
-    StartActivity --> IntroActivity : 시작
+    StartActivity --> IntroActivity : 시작(설치 후 첫 실행시)
     StartActivity --> MainActivity : 시작
 
-    StartActivity --> Intent : 사용 (권한 요청)
-    IntroActivity --> Bundle : 사용
-    MainActivity --> Bundle : 사용
-    StartActivity --> Bundle : 사용
 }
 
 @enduml
