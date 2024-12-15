@@ -74,7 +74,7 @@ public class TextBalloon {
             // 필요하다면 일정 시간 후 제거하는 로직 추가 가능
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 windowManager.removeView(bubbleView);
-            }, 3000);
+            }, 6000);
 
         } catch (Exception e) {
             e.printStackTrace();
